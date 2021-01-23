@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <?php
-//header("Content-type: text/html; charset=utf-8"); 
+header("Content-type: text/html; charset=utf-8"); 
 session_start();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
 	header("location: /comcasec/index.php");
@@ -729,13 +729,13 @@ if (isset($_POST['framework2'])) {
 															echo "<td>" . $row['turma'] . "</td>";
 															break;
 														case "fk_quadro":	
-															echo "<td>" . utf8_encode($row2['nome_quadro']) . "</span></td>";
+															echo "<td>" . $row2['nome_quadro'] . "</span></td>";
 															break;
 														case "fk_pelotao":
-															echo "<td>" . utf8_encode($row4['nome_pelotao']) . "</td>";
+															echo "<td>" . $row4['nome_pelotao'] . "</td>";
 															break;
 														case "fk_companhia":
-															echo "<td>" . utf8_encode($row3['nome_companhia']) . "</td>";
+															echo "<td>" . $row3['nome_companhia'] . "</td>";
 															break;
 														case "funcol":
 															echo "<td>" . $row['funcol'] . "</td>";
@@ -850,9 +850,9 @@ if (isset($_POST['framework2'])) {
 											echo "<td>" . $row['nome_completo'] . "</td>";
 											echo "<td>" . $row['nome_de_guerra'] . "</td>";
 											echo "<td>" . $row['turma'] . "</td>";
-											echo "<td>" . utf8_encode($row2['nome_quadro']) . "</span></td>";
-											echo "<td>" . utf8_encode($row4['nome_pelotao']) . "</td>";
-											echo "<td>" . utf8_encode($row3['nome_companhia']) . "</td>";
+											echo "<td>" . $row2['nome_quadro'] . "</span></td>";
+											echo "<td>" . $row4['nome_pelotao'] . "</td>";
+											echo "<td>" . $row3['nome_companhia'] . "</td>";
 											echo "<td>" . $row['funcol'] . "</td>";
 											echo "<td>" . $row['data_de_apresentacao'] . "</td>";
 											echo "<td>" . $row['nacionalidade'] . "</td>";

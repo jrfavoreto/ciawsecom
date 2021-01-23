@@ -152,15 +152,15 @@ if (isset($_GET["id"]) && !empty($noget)) {
                         </div>
 						<div class="form-group">
                             <label>Quadro</label>
-                            <p class="form-control-static"><?php echo utf8_encode($row2['nome_quadro']); ?></p>
+                            <p class="form-control-static"><?php echo $row2['nome_quadro']; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Pelotão</label>
-                            <p class="form-control-static"><?php echo utf8_encode($row4['nome_pelotao']); ?></p>
+                            <p class="form-control-static"><?php echo $row4['nome_pelotao']; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Companhia</label>
-                            <p class="form-control-static"><?php echo utf8_encode($row3['nome_companhia']) ?></p>
+                            <p class="form-control-static"><?php echo $row3['nome_companhia']; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Funcol</label>
