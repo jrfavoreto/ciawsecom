@@ -8,11 +8,14 @@ if (isset($_SESSION['usuarioNiveisAcessoId']) && ($_SESSION['usuarioNiveisAcesso
 	header("location: index3.php");
 	exit();
 }
+
 // Include config file
 include_once("conexao_rm2.php");
- 
-// Define variables and initialize with empty values
-$nome_completo = $nome_de_guerra = $turma = $fk_quadro = $fk_pelotao = $fk_companhia = $endereco = $nip = $funcol = $nacionalidade = $naturalidade = $cidade_nascimento = $data_nascimento
+
+
+// Inicialização das variáveis
+$id_aluno = $id_quadro = $id_quadro = $id_pelotao = $id_companhia = 0;
+$nome_completo = $nome_de_guerra = $turma = $endereco = $nip = $funcol = $nacionalidade = $naturalidade = $cidade_nascimento = $data_nascimento
 = $sexo = $estado_civil = $nome_pai = $nome_mae = $cor = $bdf = $cronico = $pos_graduacao = $mestrado = $doutorado  = $vinculo_marinha = $quadro_forca_anterior = $om_origem
 = $servidor_publico = $telefone_residencial = $telefone_celular = $cpf = $identidade = $identidade_data_emissao = $identidade_orgao = $identidade_uf = $e_mail = $alojamento
 = $armario = $data_de_apresentacao = $residencia_medica = "";
@@ -24,10 +27,124 @@ $nome_completo_err = $nome_de_guerra_err = $turma_err = $fk_quadro_err = $fk_pel
 = $armario_err = $data_de_apresentacao_err = $residencia_medica_err = "";
 
 //$descrição_err = $quantidade_err = $minimo_err = $observações_err = "";
- 
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Validate name
+
+//-----------------
+// Verifica o id passa via GET  e carrega os campos na tela para edição
+
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_GET["id"])) ) {
+
+    // Prepare a select statement
+    $sql = "SELECT * FROM aluno WHERE id_aluno = ?";
+	$sql2 = "SELECT nome_quadro FROM quadro WHERE id_quadro = ?";
+	$sql3 = "SELECT nome_companhia FROM companhia WHERE id_companhia = ?";
+	$sql4 = "SELECT nome_pelotao FROM pelotao WHERE id_pelotao = ?";
+
+    if ($stmt = mysqli_prepare($conn, $sql)) {
+		$stmt2 = mysqli_prepare($conn, $sql2);
+		$stmt3 = mysqli_prepare($conn, $sql3);
+		$stmt4 = mysqli_prepare($conn, $sql4);
+        
+		// Set parameters
+        $id_aluno = trim($_GET["id"]);
+		
+		// Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "s", $id_aluno);
+
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+
+            if (mysqli_num_rows($result) == 1) {
+                /* Fetch result row as an associative array. Since the result set contains only one row, we don't need to use while loop */
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+				
+                
+                // Retrieve individual field value
+				$nip = $row['nip'];
+				$nome_completo = $row['nome_completo'];
+				$nome_de_guerra = $row['nome_de_guerra'];
+				$turma = $row['turma'];
+				$id_quadro = $row['fk_quadro'];
+				$id_pelotao = $row['fk_pelotao'];
+				$id_companhia = $row['fk_companhia'];
+				$id_pelotao = intval($id_pelotao /3) + $id_pelotao % 3;
+				$funcol = $row['funcol'];
+				$data_de_apresentacao = $row['data_de_apresentacao'];
+				$nacionalidade = $row['nacionalidade'];
+				$naturalidade = $row['naturalidade'];
+				$cidade_nascimento = $row['cidade_nascimento'];
+				$data_nascimento = $row['data_nascimento'];
+				$cor = $row['cor'];
+				$sexo = $row['sexo'];
+				$estado_civil = $row['estado_civil'];
+				$nome_pai = $row['nome_pai'];
+				$nome_mae = $row['nome_mae'];
+				$endereco = $row['endereco'];
+				$telefone_residencial = $row['telefone_residencial']; 
+				$telefone_celular= $row['telefone_celular']; 
+				$e_mail= $row['e_mail'];
+				$cpf = $row['cpf'];
+				$identidade = $row['identidade'];
+				$identidade_data_emissao = $row['identidade_data_emissao'];
+				$identidade_orgao = $row['identidade_orgao'];
+				$identidade_uf = $row['identidade_uf'];
+				$bdf = $row['bdf'];
+				$cronico = $row['cronico'];
+				$alojamento = $row['alojamento'];
+				$armario = $row['armario'];
+				$pos_graduacao = $row['pos_graduacao'];
+				$mestrado = $row['mestrado'];
+				$doutorado = $row['doutorado'];
+				$vinculo_marinha = $row['vinculo_marinha'];
+				$quadro_forca_anterior = $row['quadro_forca_anterior'];
+				$om_origem = $row['om_origem'];
+				$servidor_publico = $row['servidor_publico'];
+				$residencia_medica = $row['residencia_medica'];	
+
+
+				mysqli_stmt_bind_param($stmt2, "i", $id_quadro);
+				mysqli_stmt_execute($stmt2);
+				$result2 = mysqli_stmt_get_result($stmt2);
+				$row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC);
+				
+				mysqli_stmt_bind_param($stmt3, "i", $id_companhia);
+				mysqli_stmt_execute($stmt3);
+				$result3 = mysqli_stmt_get_result($stmt3);
+				$row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC);
+				
+				mysqli_stmt_bind_param($stmt4, "i", $id_pelotao);
+				mysqli_stmt_execute($stmt4);
+				$result4 = mysqli_stmt_get_result($stmt4);
+				$row4 = mysqli_fetch_array($result4, MYSQLI_ASSOC);
+				
+				
+				$nome_quadro = $row2['nome_quadro'];
+				$nome_pelotao = $row4['nome_pelotao'];
+				$nome_companhia = $row3['nome_companhia'];
+				
+				
+				
+            } else {
+                // URL doesn't contain valid id parameter. Redirect to error page
+                header("location: error.php");
+                exit();
+            }
+        } else {
+            echo "Oops! Algo deu errado. Tente novamente mais tarde";
+        }
+    }
+
+    // Close statement
+    mysqli_stmt_close($stmt);
+
+    // Close connection
+    mysqli_close($conn);
+	
+} elseif($_SERVER["REQUEST_METHOD"] == "POST"){   // Processamento dos dados do formulário quando feito o submit
+    
+	 $id_aluno = trim($_POST["id_aluno"]);
+	
+	// Validate name
     $input_nome_completo = trim($_POST["nome_completo"]);
     if(empty($input_nome_completo)){
         $nome_completo_err = "Digite o nome do aluno";
@@ -64,7 +181,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } elseif(!ctype_digit($input_fk_quadro)){
         $fk_quadro_err = "Por favor, digite um quadro válido";
     } else{
-        $fk_quadro = $input_fk_quadro;
+        $id_quadro = $input_fk_quadro;
     }
     
     // Validate
@@ -74,7 +191,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }  elseif(!ctype_digit($input_fk_companhia)){
         $fk_companhia_err = "Por favor, digite uma companhia válida";
 	}	else{
-        $fk_companhia = $input_fk_companhia;
+        $id_companhia = $input_fk_companhia;
     }
 	
 	// Validate name
@@ -84,7 +201,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } elseif(!ctype_digit($input_fk_pelotao)){
         $descrição_err = "Por favor, digite um pelotão válido";
     } else{
-        $fk_pelotao = $input_fk_pelotao+(($input_fk_companhia-1)*3);
+        $id_pelotao = $input_fk_pelotao+(($input_fk_companhia-1)*3);
     }
     
     // Validate
@@ -433,77 +550,42 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		
 		//MANDAR O ENDEREÇO PARA O BD;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
-        $sql = "INSERT INTO aluno (nome_completo, nome_de_guerra, turma, fk_quadro, fk_pelotao, fk_companhia, endereco, nip, funcol, nacionalidade, naturalidade, cidade_nascimento, 
-		data_nascimento, sexo, estado_civil, nome_pai, nome_mae, cor, bdf, cronico, pos_graduacao, mestrado, doutorado, vinculo_marinha, quadro_forca_anterior, om_origem, 
-		servidor_publico, telefone_residencial, telefone_celular, cpf, identidade, identidade_data_emissao, identidade_orgao, identidade_uf, e_mail, alojamento, 
-		armario, data_de_apresentacao, residencia_medica) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        $sql = "UPDATE aluno SET nome_completo =?, nome_de_guerra=?, turma=?, fk_quadro=?, fk_pelotao=?, fk_companhia=?, 
+		endereco=?, nip=?, funcol=?, 
+		nacionalidade=?, naturalidade=?, cidade_nascimento=?, 
+		data_nascimento=?, sexo=?, estado_civil=?, nome_pai=?, nome_mae=?, 
+		cor=?, bdf=?, cronico=?, pos_graduacao=?, mestrado=?, 
+		doutorado=?, vinculo_marinha=?, quadro_forca_anterior=?, om_origem=?, 
+		servidor_publico=?, telefone_residencial=?, telefone_celular=?, cpf=?, 
+		identidade=?, identidade_data_emissao=?, identidade_orgao=?, identidade_uf=?,
+		e_mail=?, alojamento=?, 
+		armario=?, data_de_apresentacao=?, residencia_medica=?
+		WHERE id_aluno=?";
         
 		echo $sql;
 		
 		if($stmt = mysqli_prepare($conn, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssiiisssssssssssssssssssssssssssssssss", $param_nome_completo, $param_nome_de_guerra, $param_turma, $param_fk_quadro, $param_fk_pelotao, 
-			$param_fk_companhia, $param_endereco, $param_nip, $param_funcol, $param_nacionalidade, $param_naturalidade, $param_cidade_nascimento, $param_data_nascimento, $param_sexo, 
-			$param_estado_civil, $param_nome_pai, $param_nome_mae, $param_cor, $param_bdf, $param_cronico, $param_pos_graduacao, $param_mestrado, $param_doutorado, $param_vinculo_marinha, 
-			$param_quadro_forca_anterior, $param_om_origem, $param_servidor_publico, $param_telefone_residencial, $param_telefone_celular, $param_cpf, 
-			$param_identidade, $param_identidade_data_emissao, $param_identidade_orgao, $param_identidade_uf, $param_e_mail, $param_alojamento, $param_armario, $param_data_de_apresentacao, 
-			$param_residencia_medica);
+            mysqli_stmt_bind_param($stmt, "ssssssssssssssssssssssssssssssssssssssss",
+			$nome_completo, $nome_de_guerra, $turma, 
+			$id_quadro, $id_pelotao, $id_companhia, 
+			$endereco, $nip, $funcol, $nacionalidade, $naturalidade, $cidade_nascimento, 
+			$data_nascimento, $sexo, 
+			$estado_civil, $nome_pai, $nome_mae, $cor, $bdf, $cronico, $pos_graduacao, $mestrado, 
+			$doutorado, $vinculo_marinha, 
+			$quadro_forca_anterior, $om_origem, $servidor_publico, $telefone_residencial, $telefone_celular, $cpf, 
+			$identidade, $identidade_data_emissao, $identidade_orgao, $identidade_uf, $e_mail, $alojamento, 
+			$armario, $data_de_apresentacao, 
+			$residencia_medica, 
+			$id_aluno);
     
-	
-            // Set parameters
-            //$param_descrição = $item_Descricao;
-            //$param_quantidade = $item_Quantidade;
-            //$param_minimo = $item_Minimo;
-			//$param_observação = $item_Observacao;
-			
-			$param_nome_completo = $nome_completo;
-			$param_nome_de_guerra = $nome_de_guerra;
-			$param_turma = $turma;
-			$param_fk_quadro = $fk_quadro;
-			$param_fk_pelotao = $fk_pelotao;
-			$param_fk_companhia = $fk_companhia;
-			$param_endereco = $endereco;
-			$param_nip = $nip;
-			$param_funcol = $funcol;
-			$param_nacionalidade = $nacionalidade;
-			$param_naturalidade = $naturalidade;
-			$param_cidade_nascimento = $cidade_nascimento;
-			$param_data_nascimento = $data_nascimento;
-			$param_sexo = $sexo;
-			$param_estado_civil = $estado_civil;
-			$param_nome_pai = $nome_pai;
-			$param_nome_mae = $nome_mae;
-			$param_cor = $cor;
-			$param_bdf = $bdf;
-			$param_cronico = $cronico;
-			$param_pos_graduacao = $pos_graduacao;
-			$param_mestrado = $mestrado;
-			$param_doutorado = $doutorado;
-			$param_vinculo_marinha = $vinculo_marinha;
-			$param_quadro_forca_anterior = $quadro_forca_anterior;
-			$param_om_origem = $om_origem;
-			$param_servidor_publico = $servidor_publico;
-			$param_telefone_residencial = $telefone_residencial;
-			$param_telefone_celular = $telefone_celular;
-			$param_cpf = $cpf;
-			$param_identidade = $identidade;
-			$param_identidade_data_emissao = $identidade_data_emissao;
-			$param_identidade_orgao = $identidade_orgao;
-			$param_identidade_uf = $identidade_uf;
-			$param_e_mail = $e_mail;
-			$param_alojamento = $alojamento;
-			$param_armario = $armario;
-			$param_data_de_apresentacao = $data_de_apresentacao;
-			$param_residencia_medica = $residencia_medica;
-			
-            
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Records created successfully. Redirect to landing page
                 header("location: index2.php");
                 exit();
             } else{
-                echo "Oops! Algo deu errado. Tente novamente mais tarde";
+                echo "Oops! Algo deu errado. Tente novamente mais tarde. " .  mysqli_stmt_error($stmt);
             }
         }
          
@@ -513,14 +595,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Close connection
     mysqli_close($conn);
+} else {
+	echo oi;
+    // Sem parametro
+    header("location: error.php");
+    exit();
 }
+
+
+//--------------------
+ 
 ?>
  
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Criar registro de Aluno</title>
+    <title>Editar Aluno</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
         .wrapper{
@@ -535,10 +626,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header">
-                        <h2>Adicionar Aluno</h2>
+                        <h2>Editar Aluno</h2>
                     </div>
-                    <p>Por favor, preencha os campos abaixo para adicionar um novo aluno à base de dados</p>
+                    <p>Se desejar, edite os campos abaixo para alterar os dados do aluno.</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+					
+						<input type="hidden" name="id_aluno" value="<?php echo $id_aluno; ?>">
                         <div class="form-group <?php echo (!empty($nome_completo_err)) ? 'has-error' : ''; ?>">
                             <label>Nome Completo</label>
                             <input type="text" name="nome_completo" class="form-control" value="<?php echo $nome_completo; ?>">
@@ -556,17 +649,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
 						<div class="form-group <?php echo (!empty($fk_quadro_err)) ? 'has-error' : ''; ?>">
                             <label>Quadro</label>
-                            <input type="text" name="fk_quadro" class="form-control" value="<?php echo $fk_quadro; ?>">
+                            <input type="text" name="fk_quadro" class="form-control" value="<?php echo $id_quadro; ?>">
                             <span class="help-block"><?php echo $fk_quadro_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($fk_pelotao_err)) ? 'has-error' : ''; ?>">
                             <label>Pelotão</label>
-                            <input type="text" name="fk_pelotao" class="form-control" value="<?php echo $fk_pelotao; ?>">
+                            <input type="text" name="fk_pelotao" class="form-control" value="<?php echo $id_pelotao; ?>">
                             <span class="help-block"><?php echo $fk_pelotao_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($fk_companhia_err)) ? 'has-error' : ''; ?>">
                             <label>Companhia</label>
-                            <input type="text" name="fk_companhia" class="form-control" value="<?php echo $fk_companhia; ?>">
+                            <input type="text" name="fk_companhia" class="form-control" value="<?php echo $id_companhia; ?>">
                             <span class="help-block"><?php echo $fk_companhia_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($endereco_err)) ? 'has-error' : ''; ?>">
@@ -735,8 +828,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <input type="text" name="residencia_medica" class="form-control" value="<?php echo $residencia_medica; ?>">
                             <span class="help-block"><?php echo $residencia_medica_err;?></span>
                         </div>
-                        <input type="submit" class="btn btn-primary" value="Criar">
+                        <input type="submit" class="btn btn-primary" value="Salvar">
                         <a href="index2.php" class="btn btn-default">Cancelar</a>
+						<br />
+						<br />
                     </form>
                 </div>
             </div>        

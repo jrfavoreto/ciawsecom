@@ -712,7 +712,10 @@ if (isset($_POST['framework2'])) {
 												echo "<tr>";
 												echo "<td>" . $numero . "</td>"; $numero+=1;
 												echo "<td>";
-												echo "<a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
+												echo "<div class='row'>";											
+													echo "<div class='col'> <a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a> </div>";
+													echo "<div class='col'> <a href='read2.php?id=" . $row['id_aluno'] . "' title='Editar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-edit'></span></a>  </div>";
+												echo "</div>";
 												echo "</td>";
 												foreach ($_POST['framework2'] as $selectedOption){
 													switch	($selectedOption){
@@ -844,7 +847,14 @@ if (isset($_POST['framework2'])) {
 											echo "<tr>";
 											echo "<td>" . $numero . "</td>"; $numero+=1;
 											echo "<td>";
-											echo "<a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
+											
+											echo "<div class='row justify-content-center'>";											
+													echo "<div class='col-sm-1'> <a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a> </div>";
+													echo "<div class='col-sm-1'> <a href='update.php?id=" . $row['id_aluno'] . "' title='Editar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-edit'></span></a>  </div>";
+													echo "<div class='col-sm-1'> <a href='delete.php?id=" . $row['id_aluno'] . "' title='Remover Item' data-toggle='tooltip'><span class='glyphicon glyphicon-remove'></span></a>  </div>";
+											echo "</div>";
+
+											//echo "<a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
 											echo "</td>";
 											echo "<td>" . $row['nip'] . "</td>";
 											echo "<td>" . $row['nome_completo'] . "</td>";
