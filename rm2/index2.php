@@ -200,7 +200,7 @@ if (isset($_POST['framework2'])) {
 							  <option value="armario">ArmÃ¡rio</option>
 							 </optgroup>
 							 <optgroup label="Dados Profissionais"> 
-							  <option value="pos_graduacao">PÃ³s-GraduaÃ§Ã£o</option>
+							  <option value="pos_graduacao">Especialidade</option>
 							  <option value="mestrado">Mestrado</option>
 							  <option value="doutorado">Doutorado</option>
 							  <option value="vinculo_marinha">VÃ­nculo Anterior com a Marinha</option>
@@ -463,11 +463,11 @@ if (isset($_POST['framework2'])) {
 										echo "<thead>";
 										echo "<tr>";
 										echo "<th>NÃºmero</th>";
-										echo utf8_encode("<th>Ação</th>");
+										echo utf8_encode("<th>AÃ§Ã£o</th>");
 										foreach ($_POST['framework2'] as $selectedOption){
 											switch	($selectedOption){
 												//case "100":
-												//	echo utf8_encode("<th>Ação</th>");
+												//	echo utf8_encode("<th>Aï¿½ï¿½o</th>");
 												//	break;
 												case "nip":
 													echo "<th>NIP</th>";
@@ -485,7 +485,7 @@ if (isset($_POST['framework2'])) {
 													echo "<th>Quadro</th>";
 													break;
 												case "fk_pelotao":
-													echo utf8_encode("<th>Pelotão</th>");
+													echo ("<th>PelotÃ£o</th>");
 													break;
 												case "fk_companhia":
 													echo "<th>Companhia</th>";
@@ -494,7 +494,7 @@ if (isset($_POST['framework2'])) {
 													echo "<th>Funcol</th>";
 													break;
 												case "data_de_apresentacao":
-													echo utf8_encode("<th>Data de Apresentação</th>");
+													echo ("<th>Data de ApresentaÃ§Ã£o</th>");
 													break;
 												case "nacionalidade":
 													echo "<th>Nacionalidade</th>";
@@ -534,7 +534,7 @@ if (isset($_POST['framework2'])) {
 													echo "<th>Nome do Pai</th>";
 													break;
 												case "nome_mae":
-													echo utf8_encode("<th>Nome da Mãe</th>");
+													echo ("<th>Nome da MÃ£e</th>");
 													break;
 												case "cpf":
 													echo "<th>CPF</th>";
@@ -543,7 +543,7 @@ if (isset($_POST['framework2'])) {
 													echo "<th>Identidade</th>";
 													break;
 												case "identidade_data_emissao":
-													echo utf8_encode("<th>Data de Emissão da Identidade</th>");
+													echo ("<th>Data de EmissÃ£o da Identidade</th>");
 													break;
 												case "identidade_orgao":
 													echo "<th>Expedidor da Identidade</th>";
@@ -555,16 +555,16 @@ if (isset($_POST['framework2'])) {
 													echo "<th>BDF</th>";
 													break;
 												case "cronico":
-													echo utf8_encode("<th>Crônico</th>");
+													echo ("<th>CrÃ´nico</th>");
 													break;
 												case "alojamento":
 													echo "<th>Alojamento</th>";
 													break;
 												case "armario":
-													echo utf8_encode("<th>Armário</th>");
+													echo ("<th>ArmÃ¡rio</th>");
 													break;
 												case "pos_graduacao":
-													echo utf8_encode("<th>Pós-Graduação</th>");
+													echo ("<th>Especialidade</th>");
 													break;
 												case "mestrado":
 													echo "<th>Mestrado</th>";
@@ -573,25 +573,25 @@ if (isset($_POST['framework2'])) {
 													echo "<th>Doutorado</th>";
 													break;
 												case "vinculo_marinha":
-													echo utf8_encode("<th>Ví­nculo Anterior com a Marinha</th>");
+													echo ("<th>VÃ­nculo Anterior com a Marinha</th>");
 													break;
 												case "quadro_forca_anterior":
-													echo utf8_encode("<th>Quadro e Forças Anterior</th>");
+													echo ("<th>Quadro e ForÃ§a Anterior</th>");
 													break;
 												case "om_origem":
 													echo "<th>OM de Origem</th>";
 													break;
 												case "servidor_publico":
-													echo utf8_encode("<th>Servidor Público</th>");
+													echo ("<th>Servidor PÃºblico</th>");
 													break;
 												case "residencia_medica":
-													echo utf8_encode("<th>Residência Médica</th>");
+													echo ("<th>ResidÃªncia MÃ©dica</th>");
 													break;
 												case "endereco":
-													echo utf8_encode("<th>Endereço</th>");
+													echo ("<th>EndereÃ§o</th>");
 													break;
 												case "telefone_residencial":
-													echo "<th>Telefone Residencial</th>";
+													echo "<th>Tel. em caso de EmergÃªncia</th>";
 													break;
 												case "telefone_celular":
 													echo "<th>Telefone Celular</th>";
@@ -610,17 +610,17 @@ if (isset($_POST['framework2'])) {
 									echo "<table class='table table-bordered table-striped'>";
 									echo "<thead>";
 									echo "<tr>";
-									echo utf8_encode("<th>Número</th>");
-									echo utf8_encode("<th>Ação</th>");
+									echo ("<th>NÃºmero</th>");
+									echo ("<th>AÃ§Ã£o</th>");
 									echo "<th>NIP</th>";
 									echo "<th>Nome Completo</th>";
 									echo "<th>Nome de Guerra</th>";
 									echo "<th>Turma</th>";
 									echo "<th>Quadro</th>";
-									echo utf8_encode("<th>Pelotão</th>");
+									echo ("<th>PelotÃ£o</th>");
 									echo "<th>Companhia</th>";
 									echo "<th>Funcol</th>";
-									echo utf8_encode("<th>Data de Apresentação</th>");
+									echo ("<th>Data de ApresentaÃ§Ã£o</th>");
 									echo "<th>Nacionalidade</th>";
 									echo "<th>Naturalidade</th>";
 									echo "<th>Cidade Nascimento</th>";
@@ -629,26 +629,26 @@ if (isset($_POST['framework2'])) {
 									echo "<th>Sexo</th>";
 									echo "<th>Estado Civil</th>";
 									echo "<th>Nome do Pai</th>";
-									echo utf8_encode("<th>Nome da Mãe</th>");
+									echo ("<th>Nome da MÃ£e</th>");
 									echo "<th>CPF</th>";
 									echo "<th>Identidade</th>";
-									echo utf8_encode("<th>Data de Emissão da Identidade</th>");
+									echo ("<th>Data de EmissÃ£o da Identidade</th>");
 									echo "<th>Expedidor da Identidade</th>";
 									echo "<th>UF da Identidade</th>";
 									echo "<th>BDF</th>";
-									echo utf8_encode("<th>Crônico</th>");
+									echo ("<th>CrÃ´nico</th>");
 									echo "<th>Alojamento</th>";
-									echo utf8_encode("<th>Armário</th>");
-									echo utf8_encode("<th>Pós-Graduação</th>");
+									echo ("<th>ArmÃ¡rio</th>");
+									echo ("<th>Especialidade</th>");
 									echo "<th>Mestrado</th>";
 									echo "<th>Doutorado</th>";
-									echo utf8_encode("<th>Ví­nculo Anterior com a Marinha</th>");
-									echo utf8_encode("<th>Quadro e Força Anterior</th>");
+									echo ("<th>VÃ­nculo Anterior com a Marinha</th>");
+									echo ("<th>Quadro e ForÃ§a Anterior</th>");
 									echo "<th>OM de Origem</th>";
-									echo utf8_encode("<th>Servidor Público</th>");
-									echo utf8_encode("<th>Residência Médica</th>");
-									echo utf8_encode("<th>Endereço</th>");
-									echo "<th>Telefone Residencial</th>";
+									echo ("<th>Servidor PÃºblico</th>");
+									echo ("<th>ResidÃªncia MÃ©dica</th>");
+									echo ("<th>EndereÃ§o</th>");
+									echo "<th>Tel. em caso de EmergÃªncia</th>";
 									echo "<th>Telefone Celular</th>";
 									echo "<th>E-mail</th>";
 									echo "</tr>";
@@ -712,9 +712,10 @@ if (isset($_POST['framework2'])) {
 												echo "<tr>";
 												echo "<td>" . $numero . "</td>"; $numero+=1;
 												echo "<td>";
-												echo "<div class='row'>";											
-													echo "<div class='col'> <a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a> </div>";
-													echo "<div class='col'> <a href='read2.php?id=" . $row['id_aluno'] . "' title='Editar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-edit'></span></a>  </div>";
+												echo "<div class='row justify-content-center'>";											
+													echo "<div class='col-sm-1'> <a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a> </div>";
+													echo "<div class='col-sm-1'> <a href='update.php?id=" . $row['id_aluno'] . "' title='Editar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-edit'></span></a>  </div>";
+													echo "<div class='col-sm-1'> <a href='delete.php?id=" . $row['id_aluno'] . "' title='Remover Item' data-toggle='tooltip'><span class='glyphicon glyphicon-remove'></span></a>  </div>";
 												echo "</div>";
 												echo "</td>";
 												foreach ($_POST['framework2'] as $selectedOption){
@@ -912,7 +913,7 @@ if (isset($_POST['framework2'])) {
 									echo "<p class='lead'><em>Nenhum registro foi encontrado.</em></p>";
 								}
                         } else {
-                            echo "ERROR: Não foi possí­vel executar $sql. " . mysqli_error($conn);
+                            echo "ERROR: NÃ£o foi possÃ­vel executar $sql. " . mysqli_error($conn);
                         }
 
                         // Close connection

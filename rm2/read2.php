@@ -243,7 +243,7 @@ if (isset($_GET["id"]) && !empty($noget)) {
                             <p class="form-control-static"><?php echo $row["armario"]; ?></p>
                         </div>
 						<div class="form-group">
-                            <label>Pós-Graduação</label>
+                            <label>Especialidade</label>
                             <p class="form-control-static"><?php echo $row["pos_graduacao"]; ?></p>
                         </div>
 						<div class="form-group">

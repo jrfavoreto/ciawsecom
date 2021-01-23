@@ -140,9 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
 						<div class="form-group">
                             <label>NIP</label>
                             <input type="text" name="nip" class="form-control" readonly value="<?php echo $nip; ?>">
-                           
                         </div>
-						
 						<div class="form-group">
                             <label>CPF</label>
                             <input type="text" name="cpf" class="form-control" readonly value="<?php echo $cpf; ?>">

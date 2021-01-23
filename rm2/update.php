@@ -734,7 +734,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
                         </div>
 						
 						<div class="form-group <?php echo (!empty($pos_graduacao_err)) ? 'has-error' : ''; ?>">
-                            <label>Pós-Graduação</label>
+                            <label>Especialidade</label>
                             <input type="text" name="pos_graduacao" class="form-control" value="<?php echo $pos_graduacao; ?>">
                             <span class="help-block"><?php echo $pos_graduacao_err;?></span>
                         </div>
@@ -769,7 +769,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
                             <span class="help-block"><?php echo $servidor_publico_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($telefone_residencial_err)) ? 'has-error' : ''; ?>">
-                            <label>Telefone Residencial</label>
+                            <label>Tel. em caso de Emergência</label>
                             <input type="text" name="telefone_residencial" class="form-control" value="<?php echo $telefone_residencial; ?>">
                             <span class="help-block"><?php echo $telefone_residencial_err;?></span>
                         </div>
@@ -814,7 +814,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
                             <span class="help-block"><?php echo $alojamento_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($armario_err)) ? 'has-error' : ''; ?>">
-                            <label>Armario</label>
+                            <label>Armário</label>
                             <input type="text" name="armario" class="form-control" value="<?php echo $armario; ?>">
                             <span class="help-block"><?php echo $armario_err;?></span>
                         </div>
