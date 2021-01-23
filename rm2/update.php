@@ -9,9 +9,9 @@ if (isset($_SESSION['usuarioNiveisAcessoId']) && ($_SESSION['usuarioNiveisAcesso
 	exit();
 }
 
-// Include config file
+// Include files
 include_once("conexao_rm2.php");
-
+include_once("funcoes_apoio.php");
 
 // Inicialização das variáveis
 $id_aluno = $id_quadro = $id_quadro = $id_pelotao = $id_companhia = 0;
@@ -26,7 +26,8 @@ $nome_completo_err = $nome_de_guerra_err = $turma_err = $fk_quadro_err = $fk_pel
 = $telefone_celular_err = $cpf_err = $identidade_err = $identidade_data_emissao_err = $identidade_orgao_err = $identidade_uf_err = $e_mail_err = $alojamento_err
 = $armario_err = $data_de_apresentacao_err = $residencia_medica_err = "";
 
-//$descrição_err = $quantidade_err = $minimo_err = $observações_err = "";
+$arrayPelotao = ObterArrayPelotoes($conn);
+$arrayQuadro = ObterArrayQuadros($conn);
 
 //-----------------
 // Verifica o id passa via GET  e carrega os campos na tela para edição
@@ -35,15 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
 
     // Prepare a select statement
     $sql = "SELECT * FROM aluno WHERE id_aluno = ?";
-	$sql2 = "SELECT nome_quadro FROM quadro WHERE id_quadro = ?";
-	$sql3 = "SELECT nome_companhia FROM companhia WHERE id_companhia = ?";
-	$sql4 = "SELECT nome_pelotao FROM pelotao WHERE id_pelotao = ?";
-
+	
     if ($stmt = mysqli_prepare($conn, $sql)) {
-		$stmt2 = mysqli_prepare($conn, $sql2);
-		$stmt3 = mysqli_prepare($conn, $sql3);
-		$stmt4 = mysqli_prepare($conn, $sql4);
-        
+		
 		// Set parameters
         $id_aluno = trim($_GET["id"]);
 		
@@ -67,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
 				$id_quadro = $row['fk_quadro'];
 				$id_pelotao = $row['fk_pelotao'];
 				$id_companhia = $row['fk_companhia'];
-				$id_pelotao = intval($id_pelotao /3) + $id_pelotao % 3;
 				$funcol = $row['funcol'];
 				$data_de_apresentacao = $row['data_de_apresentacao'];
 				$nacionalidade = $row['nacionalidade'];
@@ -100,29 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
 				$om_origem = $row['om_origem'];
 				$servidor_publico = $row['servidor_publico'];
 				$residencia_medica = $row['residencia_medica'];	
-
-
-				mysqli_stmt_bind_param($stmt2, "i", $id_quadro);
-				mysqli_stmt_execute($stmt2);
-				$result2 = mysqli_stmt_get_result($stmt2);
-				$row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC);
-				
-				mysqli_stmt_bind_param($stmt3, "i", $id_companhia);
-				mysqli_stmt_execute($stmt3);
-				$result3 = mysqli_stmt_get_result($stmt3);
-				$row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC);
-				
-				mysqli_stmt_bind_param($stmt4, "i", $id_pelotao);
-				mysqli_stmt_execute($stmt4);
-				$result4 = mysqli_stmt_get_result($stmt4);
-				$row4 = mysqli_fetch_array($result4, MYSQLI_ASSOC);
-				
-				
-				$nome_quadro = $row2['nome_quadro'];
-				$nome_pelotao = $row4['nome_pelotao'];
-				$nome_companhia = $row3['nome_companhia'];
-				
-				
+							
 				
             } else {
                 // URL doesn't contain valid id parameter. Redirect to error page
@@ -175,33 +147,26 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
     }
    
     // Validate name
-    $input_fk_quadro = trim($_POST["fk_quadro"]);
+    $input_fk_quadro = trim($_POST["select_quadro"]);
     if(empty($input_fk_quadro)){
-        $fk_quadro_err = "Digite o quadro do aluno";
+        $fk_quadro_err = "Informe o quadro do aluno";
     } elseif(!ctype_digit($input_fk_quadro)){
-        $fk_quadro_err = "Por favor, digite um quadro válido";
+        $fk_quadro_err = "Por favor, informe um quadro válido";
     } else{
         $id_quadro = $input_fk_quadro;
     }
-    
-    // Validate
-    $input_fk_companhia = trim($_POST["fk_companhia"]);
-    if(empty($input_fk_companhia)){
-        $fk_companhia_err = "Digite a companhia do aluno";     
-    }  elseif(!ctype_digit($input_fk_companhia)){
-        $fk_companhia_err = "Por favor, digite uma companhia válida";
-	}	else{
-        $id_companhia = $input_fk_companhia;
-    }
+    	
 	
 	// Validate name
-    $input_fk_pelotao = trim($_POST["fk_pelotao"]);
+    $input_fk_pelotao = trim($_POST["select_pelotao"]);
     if(empty($input_fk_pelotao)){
-        $fk_pelotao_err = "Digite o pelotão do aluno";
+        $fk_pelotao_err = "Informe o pelotão/companhia do aluno";
     } elseif(!ctype_digit($input_fk_pelotao)){
-        $descrição_err = "Por favor, digite um pelotão válido";
+        $descrição_err = "Por favor, informe um pelotão/companhia válido";
     } else{
-        $id_pelotao = $input_fk_pelotao+(($input_fk_companhia-1)*3);
+        $id_pelotao = $input_fk_pelotao;
+		$id_companhia =  ObterIdCompanhia($arrayPelotao, $id_pelotao);
+		
     }
     
     // Validate
@@ -347,9 +312,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
 	    // Validate name
     $input_pos_graduacao = trim($_POST["pos_graduacao"]);
     if(empty($input_pos_graduacao)){
-        $pos_graduacao_err = "Digite a pós-graduação";
+        $pos_graduacao_err = "Digite a especialidade";
     } elseif(!filter_var($input_pos_graduacao)){
-        $pos_graduacao_err = "Por favor, digite uma pós-graduação válida";
+        $pos_graduacao_err = "Por favor, digite uma especialidade válida";
     } else{
         $pos_graduacao = $input_pos_graduacao;
     }
@@ -647,21 +612,39 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
                             <input type="text" name="turma" class="form-control" value="<?php echo $turma; ?>">
                             <span class="help-block"><?php echo $turma_err;?></span>
                         </div>
-						<div class="form-group <?php echo (!empty($fk_quadro_err)) ? 'has-error' : ''; ?>">
-                            <label>Quadro</label>
-                            <input type="text" name="fk_quadro" class="form-control" value="<?php echo $id_quadro; ?>">
-                            <span class="help-block"><?php echo $fk_quadro_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($fk_pelotao_err)) ? 'has-error' : ''; ?>">
-                            <label>Pelotão</label>
-                            <input type="text" name="fk_pelotao" class="form-control" value="<?php echo $id_pelotao; ?>">
-                            <span class="help-block"><?php echo $fk_pelotao_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($fk_companhia_err)) ? 'has-error' : ''; ?>">
-                            <label>Companhia</label>
-                            <input type="text" name="fk_companhia" class="form-control" value="<?php echo $id_companhia; ?>">
-                            <span class="help-block"><?php echo $fk_companhia_err;?></span>
-                        </div>
+												
+						<div class="form-group">
+							<label>Quadro</label>
+							<select id="select_quadro" name="select_quadro" class="form-control">
+								<?php
+									foreach ($arrayQuadro as $row)
+									{
+										$id_q = $row['id_quadro'];
+										$str_quadro = "(" . $row['sigla_quadro'] . ") " . $row['nome_quadro'];
+										$selecionado = ($id_quadro == $id_q) ? 'selected' : '';
+										echo "<option value='$id_q' $selecionado >$str_quadro</option>";
+									}
+								   
+								  ?>
+							</select>
+					    </div>
+						
+						<div class="form-group">
+							<label>Pelotão/Companhia</label>
+							<select id="select_pelotao" name="select_pelotao" class="form-control">
+								<?php
+									foreach ($arrayPelotao as $row)
+									{
+										$id_pelot = $row['id_pelotao'];
+										$str_pelotao = $row['nome_pelotao'] . " - " . $row['nome_companhia'];
+										$selecionado = ($id_pelotao == $id_pelot) ? 'selected' : '';
+										echo "<option value='$id_pelot' $selecionado >$str_pelotao</option>";
+									}
+								   
+								  ?>
+							</select>
+					    </div>
+						
 						<div class="form-group <?php echo (!empty($endereco_err)) ? 'has-error' : ''; ?>">
                             <label>Endereço</label>
                             <input type="text" name="endereco" class="form-control" value="<?php echo $endereco; ?>">

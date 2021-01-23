@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
                             <label>CPF</label>
                             <input type="text" name="cpf" class="form-control" readonly value="<?php echo $cpf; ?>">
                         </div>
-						<p>O registro do aluno acima será excluído e a operação não poderá ser desfeito. Deseja confirmar a exclusão?</p>
+						<p>O registro do aluno acima será excluído do sistema e a operação não poderá ser desfeita. Deseja confirmar a exclusão?</p>
                         <input type="submit" class="btn btn-primary" value="Sim">
                         <a href="index2.php" class="btn btn-default">Cancelar</a>
 						<br />

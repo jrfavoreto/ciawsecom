@@ -10,6 +10,7 @@ if (isset($_SESSION['usuarioNiveisAcessoId']) && ($_SESSION['usuarioNiveisAcesso
 }
 // Include config file
 include_once("conexao_rm2.php");
+include_once("funcoes_apoio.php");
  
 // Define variables and initialize with empty values
 $nome_completo = $nome_de_guerra = $turma = $fk_quadro = $fk_pelotao = $fk_companhia = $endereco = $nip = $funcol = $nacionalidade = $naturalidade = $cidade_nascimento = $data_nascimento
@@ -22,6 +23,9 @@ $nome_completo_err = $nome_de_guerra_err = $turma_err = $fk_quadro_err = $fk_pel
 = $pos_graduacao_err = $mestrado_err = $doutorado_err  = $vinculo_marinha_err = $quadro_forca_anterior_err = $om_origem_err = $servidor_publico_err = $telefone_residencial_err
 = $telefone_celular_err = $cpf_err = $identidade_err = $identidade_data_emissao_err = $identidade_orgao_err = $identidade_uf_err = $e_mail_err = $alojamento_err
 = $armario_err = $data_de_apresentacao_err = $residencia_medica_err = "";
+
+$arrayPelotao = ObterArrayPelotoes($conn);
+$arrayQuadro = ObterArrayQuadros($conn);
 
 //$descrição_err = $quantidade_err = $minimo_err = $observações_err = "";
  
@@ -58,33 +62,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
    
     // Validate name
-    $input_fk_quadro = trim($_POST["fk_quadro"]);
+    $input_fk_quadro = trim($_POST["select_quadro"]);
     if(empty($input_fk_quadro)){
-        $fk_quadro_err = "Digite o quadro do aluno";
+        $fk_quadro_err = "Informe o quadro do aluno";
     } elseif(!ctype_digit($input_fk_quadro)){
-        $fk_quadro_err = "Por favor, digite um quadro válido";
+        $fk_quadro_err = "Por favor, informe um quadro válido";
     } else{
         $fk_quadro = $input_fk_quadro;
     }
-    
-    // Validate
-    $input_fk_companhia = trim($_POST["fk_companhia"]);
-    if(empty($input_fk_companhia)){
-        $fk_companhia_err = "Digite a companhia do aluno";     
-    }  elseif(!ctype_digit($input_fk_companhia)){
-        $fk_companhia_err = "Por favor, digite uma companhia válida";
-	}	else{
-        $fk_companhia = $input_fk_companhia;
-    }
-	
+        	
 	// Validate name
-    $input_fk_pelotao = trim($_POST["fk_pelotao"]);
+    $input_fk_pelotao = trim($_POST["select_pelotao"]);
     if(empty($input_fk_pelotao)){
-        $fk_pelotao_err = "Digite o pelotão do aluno";
+        $fk_pelotao_err =  "Informe o pelotão/companhia do aluno";
     } elseif(!ctype_digit($input_fk_pelotao)){
-        $descrição_err = "Por favor, digite um pelotão válido";
+        $descrição_err = "Por favor, informe um pelotão/companhia válido";
     } else{
-        $fk_pelotao = $input_fk_pelotao+(($input_fk_companhia-1)*3);
+        $fk_pelotao = $input_fk_pelotao;
+		$fk_companhia =	ObterIdCompanhia($arrayPelotao, $fk_pelotao);
+	
     }
     
     // Validate
@@ -230,9 +226,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	    // Validate name
     $input_pos_graduacao = trim($_POST["pos_graduacao"]);
     if(empty($input_pos_graduacao)){
-        $pos_graduacao_err = "Digite a pós-graduação";
+        $pos_graduacao_err = "Digite a especialidade";
     } elseif(!filter_var($input_pos_graduacao)){
-        $pos_graduacao_err = "Por favor, digite uma pós-graduação válida";
+        $pos_graduacao_err = "Por favor, digite uma especialidade válida";
     } else{
         $pos_graduacao = $input_pos_graduacao;
     }
@@ -554,21 +550,41 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <input type="text" name="turma" class="form-control" value="<?php echo $turma; ?>">
                             <span class="help-block"><?php echo $turma_err;?></span>
                         </div>
+						
 						<div class="form-group <?php echo (!empty($fk_quadro_err)) ? 'has-error' : ''; ?>">
-                            <label>Quadro</label>
-                            <input type="text" name="fk_quadro" class="form-control" value="<?php echo $fk_quadro; ?>">
-                            <span class="help-block"><?php echo $fk_quadro_err;?></span>
-                        </div>
+							<label>Quadro</label>
+							<select id="select_quadro" name="select_quadro" class="form-control">
+								<?php
+									foreach ($arrayQuadro as $row)
+									{
+										$id_q = $row['id_quadro'];
+										$str_quadro = "(" . $row['sigla_quadro'] . ") " . $row['nome_quadro'];
+										$selecionado = ($id_quadro == $id_q) ? 'selected' : '';
+										echo "<option value='$id_q' $selecionado >$str_quadro</option>";
+									}
+								   
+								  ?>
+							</select>
+							<span class="help-block"><?php echo $fk_quadro_err;?></span>
+					    </div>
+												
 						<div class="form-group <?php echo (!empty($fk_pelotao_err)) ? 'has-error' : ''; ?>">
-                            <label>Pelotão</label>
-                            <input type="text" name="fk_pelotao" class="form-control" value="<?php echo $fk_pelotao; ?>">
-                            <span class="help-block"><?php echo $fk_pelotao_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($fk_companhia_err)) ? 'has-error' : ''; ?>">
-                            <label>Companhia</label>
-                            <input type="text" name="fk_companhia" class="form-control" value="<?php echo $fk_companhia; ?>">
-                            <span class="help-block"><?php echo $fk_companhia_err;?></span>
-                        </div>
+							<label>Pelotão/Companhia</label>
+							<select id="select_pelotao" name="select_pelotao" class="form-control">
+								<?php
+									foreach ($arrayPelotao as $row)
+									{
+										$id_pelot = $row['id_pelotao'];
+										$str_pelotao = $row['nome_pelotao'] . " - " . $row['nome_companhia'];
+										$selecionado = ($id_pelotao == $id_pelot) ? 'selected' : '';
+										echo "<option value='$id_pelot' $selecionado >$str_pelotao</option>";
+									}
+								   
+								  ?>
+							</select>
+							<span class="help-block"><?php echo $fk_pelotao_err;?></span>
+					    </div>
+						
 						<div class="form-group <?php echo (!empty($endereco_err)) ? 'has-error' : ''; ?>">
                             <label>Endereço</label>
                             <input type="text" name="endereco" class="form-control" value="<?php echo $endereco; ?>">
