@@ -1,0 +1,23 @@
+ jQuery.ajax( "https://cors-anywhere.herokuapp.com/http://api.baneses.com.br" )
+  .done(function() {
+    alert( "success" );
+  })
+  
+  Access-Control-Allow-Origin
+  
+  jQuery.ajax({
+  type: "GET",
+  beforeSend: function(request) {
+    request.setRequestHeader("Access-Control-Allow-Origin", "*");
+  },
+  url: "https://cors-anywhere.herokuapp.com/https://api.baneses.com.br/Baneses119.js",
+  processData: false,
+  success: function(msg) {
+     alert( "Success :" + msg);
+  },
+  error: function(xhr,textStatus,errorThrown) {
+        alert("Error :"+textStatus);
+		console.log(xhr);
+		console.log(errorThrown);
+    }
+});
