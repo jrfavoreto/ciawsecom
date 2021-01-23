@@ -463,7 +463,7 @@ if (isset($_POST['framework2'])) {
 										echo "<thead>";
 										echo "<tr>";
 										echo "<th>Número</th>";
-										echo utf8_encode("<th>Ação</th>");
+										echo "<th style='min-width: 95px;'>Ação</th>";
 										foreach ($_POST['framework2'] as $selectedOption){
 											switch	($selectedOption){
 												//case "100":
@@ -611,7 +611,7 @@ if (isset($_POST['framework2'])) {
 									echo "<thead>";
 									echo "<tr>";
 									echo ("<th>Número</th>");
-									echo ("<th>Ação</th>");
+									echo ("<th style='min-width: 95px;'>Ação</th>");
 									echo "<th>NIP</th>";
 									echo "<th>Nome Completo</th>";
 									echo "<th>Nome de Guerra</th>";
@@ -712,7 +712,7 @@ if (isset($_POST['framework2'])) {
 												echo "<tr>";
 												echo "<td>" . $numero . "</td>"; $numero+=1;
 												echo "<td>";
-												echo "<div class='row justify-content-center'>";											
+												echo "<div class='row justify-content-center' >";											
 													echo "<div class='col-sm-1'> <a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a> </div>";
 													echo "<div class='col-sm-1'> <a href='update.php?id=" . $row['id_aluno'] . "' title='Editar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-edit'></span></a>  </div>";
 													echo "<div class='col-sm-1'> <a href='delete.php?id=" . $row['id_aluno'] . "' title='Remover Item' data-toggle='tooltip'><span class='glyphicon glyphicon-remove'></span></a>  </div>";
