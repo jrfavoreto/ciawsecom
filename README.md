@@ -1,7 +1,7 @@
-# ciawsecom
-Projeto Cadastro de alunos da SECOM/CIAW
+# ciawsecom - Projeto Cadastro de alunos da SECOM/CIAW
 
-*Alterações:*
+
+### *Alterações:*
 
 * Criação da página update.php
 * Criação da página delete.php
