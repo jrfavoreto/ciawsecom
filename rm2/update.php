@@ -63,11 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
 				$id_pelotao = $row['fk_pelotao'];
 				$id_companhia = $row['fk_companhia'];
 				$funcol = $row['funcol'];
-				$data_de_apresentacao = $row['data_de_apresentacao'];
+				$data_de_apresentacao = ObterDataDoMySql($row['data_de_apresentacao']);
 				$nacionalidade = $row['nacionalidade'];
 				$naturalidade = $row['naturalidade'];
 				$cidade_nascimento = $row['cidade_nascimento'];
-				$data_nascimento = $row['data_nascimento'];
+				$data_nascimento = ObterDataDoMySql($row['data_nascimento']);
 				$cor = $row['cor'];
 				$sexo = $row['sexo'];
 				$estado_civil = $row['estado_civil'];
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
 				$e_mail= $row['e_mail'];
 				$cpf = $row['cpf'];
 				$identidade = $row['identidade'];
-				$identidade_data_emissao = $row['identidade_data_emissao'];
+				$identidade_data_emissao = ObterDataDoMySql($row['identidade_data_emissao']);
 				$identidade_orgao = $row['identidade_orgao'];
 				$identidade_uf = $row['identidade_uf'];
 				$bdf = $row['bdf'];
@@ -233,10 +233,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
     $input_data_nascimento = trim($_POST["data_nascimento"]);
     if(empty($input_data_nascimento)){
         $data_nascimento_err = "Digite a data de nascimento do aluno";
-    } elseif(!filter_var($input_data_nascimento)){
+	} elseif(!DataEhValida($input_data_nascimento)){
         $descrição_err = "Por favor, coloque uma data de nascimento válida";
     } else{
-        $data_nascimento = $input_data_nascimento;
+		$data_nascimento = ObterDataFormatoMySql($input_data_nascimento);//  dd/mm/yyyy
     }
     
     // Validate
@@ -423,12 +423,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
     $input_identidade_data_emissao = trim($_POST["identidade_data_emissao"]);
     if(empty($input_identidade_data_emissao)){
         $identidade_data_emissao_err = "Digite a data de emissão da identidade";
-    } elseif(!filter_var($input_identidade_data_emissao)){
+	} elseif(!DataEhValida($input_identidade_data_emissao)){
         $identidade_data_emissao_err = "Por favor preencha o campo corretamente";
     } else{
-        $identidade_data_emissao = $input_identidade_data_emissao;
+        $identidade_data_emissao = ObterDataFormatoMySql($input_identidade_data_emissao);// dd/mm/yyyy
     }
-	
 	
 	    // Validate name
     $input_identidade_orgao = trim($_POST["identidade_orgao"]);
@@ -485,11 +484,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
     $input_data_de_apresentacao = trim($_POST["data_de_apresentacao"]);
     if(empty($input_data_de_apresentacao)){
         $data_de_apresentacao_err = "Digite a data de apresentação";
-    } elseif(!filter_var($input_data_de_apresentacao)){
+    } elseif(!DataEhValida($input_data_de_apresentacao)){
         $data_de_apresentacao_err = "Por favor preencha o campo corretamente";
     } else{
-        $data_de_apresentacao = $input_data_de_apresentacao;
-	}		
+        $data_de_apresentacao = ObterDataFormatoMySql($input_data_de_apresentacao);//  dd/mm/yyyy
+	}			
 	
 	    // Validate name
     $input_residencia_medica = trim($_POST["residencia_medica"]);
@@ -578,6 +577,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
     <meta charset="UTF-8">
     <title>Editar Aluno</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
     <style type="text/css">
         .wrapper{
             width: 500px;
@@ -652,7 +653,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
                         </div>
 						<div class="form-group <?php echo (!empty($nip_err)) ? 'has-error' : ''; ?>">
                             <label>NIP</label>
-                            <input type="text" name="nip" class="form-control" value="<?php echo $nip; ?>">
+                            <input type="text" id="nip" name="nip" class="form-control" value="<?php echo $nip; ?>">
                             <span class="help-block"><?php echo $nip_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($funcol_err)) ? 'has-error' : ''; ?>">
@@ -677,7 +678,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
                         </div>
 						<div class="form-group <?php echo (!empty($data_nascimento_err)) ? 'has-error' : ''; ?>">
                             <label>Data de Nascimento</label>
-                            <input type="text" name="data_nascimento" class="form-control" value="<?php echo $data_nascimento; ?>">
+                            <input type="text" id="data_nascimento" name="data_nascimento" class="form-control" value="<?php echo $data_nascimento; ?>">
                             <span class="help-block"><?php echo $data_nascimento_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($sexo_err)) ? 'has-error' : ''; ?>">
@@ -753,17 +754,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
                         </div>
 						<div class="form-group <?php echo (!empty($telefone_residencial_err)) ? 'has-error' : ''; ?>">
                             <label>Tel. em caso de Emergência</label>
-                            <input type="text" name="telefone_residencial" class="form-control" value="<?php echo $telefone_residencial; ?>">
+                            <input type="text" id="telefone_residencial"  name="telefone_residencial" class="form-control" value="<?php echo $telefone_residencial; ?>">
                             <span class="help-block"><?php echo $telefone_residencial_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($telefone_celular_err)) ? 'has-error' : ''; ?>">
                             <label>Telefone Celular</label>
-                            <input type="text" name="telefone_celular" class="form-control" value="<?php echo $telefone_celular; ?>">
+                            <input type="text" id="telefone_celular" name="telefone_celular" class="form-control" value="<?php echo $telefone_celular; ?>">
                             <span class="help-block"><?php echo $telefone_celular_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($cpf_err)) ? 'has-error' : ''; ?>">
                             <label>CPF</label>
-                            <input type="text" name="cpf" class="form-control" value="<?php echo $cpf; ?>">
+                            <input type="text" id="cpf"  name="cpf" class="form-control" value="<?php echo $cpf; ?>">
                             <span class="help-block"><?php echo $cpf_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($identidade_err)) ? 'has-error' : ''; ?>">
@@ -773,7 +774,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
 						</div>
 						<div class="form-group <?php echo (!empty($identidade_data_emissao_err)) ? 'has-error' : ''; ?>">
                             <label>Data de Emissão da Identidade</label>
-                            <input type="text" name="identidade_data_emissao" class="form-control" value="<?php echo $identidade_data_emissao; ?>">
+                            <input type="text" id="identidade_data_emissao" name="identidade_data_emissao" class="form-control" value="<?php echo $identidade_data_emissao; ?>">
                             <span class="help-block"><?php echo $identidade_data_emissao_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($identidade_orgao_err)) ? 'has-error' : ''; ?>">
@@ -803,7 +804,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
                         </div>
 						<div class="form-group <?php echo (!empty($data_de_apresentacao_err)) ? 'has-error' : ''; ?>">
                             <label>Data de Apresentação ao CIAW</label>
-                            <input type="text" name="data_de_apresentacao" class="form-control" value="<?php echo $data_de_apresentacao; ?>">
+                            <input type="text" id="data_de_apresentacao" name="data_de_apresentacao" class="form-control" value="<?php echo $data_de_apresentacao; ?>">
                             <span class="help-block"><?php echo $data_de_apresentacao_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($residencia_medica_err)) ? 'has-error' : ''; ?>">
@@ -821,4 +822,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
         </div>
     </div>
 </body>
+<script>
+$(document).ready(function () {
+    $("#data_de_apresentacao").mask("99/99/9999");
+	$("#identidade_data_emissao").mask("99/99/9999"); 
+	$("#data_nascimento").mask("99/99/9999"); 
+	$("#telefone_residencial").mask("(99) 99999-9999"); 
+	$("#telefone_celular").mask("(99) 99999-9999"); 
+	$("#cpf").mask("999.999.999-99"); 
+	$("#nip").mask("99.9999.99"); 
+});
+</script>
 </html>

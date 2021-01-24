@@ -51,4 +51,46 @@ function ObterIdCompanhia($array, $id_pelotao) {
 	}
 }
 
+function DataEhValida($inputDateDDMMYYYY) {
+		
+		if(empty($inputDateDDMMYYYY))
+			return false;
+		
+		try {
+			$partsDate = explode('/', $inputDateDDMMYYYY);//  dd/mm/yyyy
+			$date  = "$partsDate[2]-$partsDate[1]-$partsDate[0]";
+			$dmy = DateTime::createFromFormat('Y-m-d', $date);
+			
+			if (!$dmy) {
+				return false;
+			}
+			else {
+				return true;
+			}
+			
+		} catch (Exception $e) {
+			return false;
+		}
+}
+
+
+function ObterDataFormatoMySql($inputDateDDMMYYYY) {
+		if(empty($inputDateDDMMYYYY))
+			return	"";
+		
+		$partsDate = explode('/', $inputDateDDMMYYYY);//  dd/mm/yyyy
+		$date  = "$partsDate[2]-$partsDate[1]-$partsDate[0]";
+		
+        return $date;
+}
+
+function ObterDataDoMySql($date) {
+		if(empty($date))
+			return	"";
+		
+		$partsDate = explode('-', $date);//  yyyy-mm-dd
+		$date  = "$partsDate[2]/$partsDate[1]/$partsDate[0]";
+		
+        return $date;
+}
 ?>

@@ -13,6 +13,8 @@ if (isset($_SESSION['usuarioNiveisAcessoId']) && ($_SESSION['usuarioNiveisAcesso
 }
 // Include config file
 include_once("conexao_rm2.php");
+include_once("funcoes_apoio.php");
+
 $width=4800;
 
 if (isset($_POST['framework2'])) {
@@ -745,7 +747,7 @@ if (isset($_POST['framework2'])) {
 															echo "<td>" . $row['funcol'] . "</td>";
 															break;
 														case "data_de_apresentacao":
-															echo "<td>" . $row['data_de_apresentacao'] . "</td>";
+															echo "<td>" . ObterDataDoMySql($row['data_de_apresentacao']) . "</td>";
 															break;
 														case "nacionalidade":
 															echo "<td>" . $row['nacionalidade'] . "</td>";
@@ -757,7 +759,7 @@ if (isset($_POST['framework2'])) {
 															echo "<td>" . $row['cidade_nascimento'] . "</td>";
 															break;
 														case "data_nascimento":
-															echo "<td>" . $row['data_nascimento'] . "</td>";
+															echo "<td>" . ObterDataDoMySql($row['data_nascimento']) . "</td>";
 															break;
 														case "cor":
 															echo "<td>" . $row['cor'] . "</td>";
@@ -781,7 +783,7 @@ if (isset($_POST['framework2'])) {
 															echo "<td>" . $row['identidade'] . "</td>";
 															break;
 														case "identidade_data_emissao":
-															echo "<td>" . $row['identidade_data_emissao'] . "</td>";
+															echo "<td>" . ObterDataDoMySql($row['identidade_data_emissao']) . "</td>";
 															break;
 														case "identidade_orgao":
 															echo "<td>" . $row['identidade_orgao'] . "</td>";
@@ -865,11 +867,11 @@ if (isset($_POST['framework2'])) {
 											echo "<td>" . $row4['nome_pelotao'] . "</td>";
 											echo "<td>" . $row3['nome_companhia'] . "</td>";
 											echo "<td>" . $row['funcol'] . "</td>";
-											echo "<td>" . $row['data_de_apresentacao'] . "</td>";
+											echo "<td>" . ObterDataDoMySql($row['data_de_apresentacao']) . "</td>";
 											echo "<td>" . $row['nacionalidade'] . "</td>";
 											echo "<td>" . $row['naturalidade'] . "</td>";
 											echo "<td>" . $row['cidade_nascimento'] . "</td>";
-											echo "<td>" . $row['data_nascimento'] . "</td>";
+											echo "<td>" . ObterDataDoMySql($row['data_nascimento']) . "</td>";
 											echo "<td>" . $row['cor'] . "</td>";
 											echo "<td>" . $row['sexo'] . "</td>";
 											echo "<td>" . $row['estado_civil'] . "</td>";
@@ -877,7 +879,7 @@ if (isset($_POST['framework2'])) {
 											echo "<td>" . $row['nome_mae'] . "</td>";
 											echo "<td>" . $row['cpf'] . "</td>";
 											echo "<td>" . $row['identidade'] . "</td>";
-											echo "<td>" . $row['identidade_data_emissao'] . "</td>";
+											echo "<td>" . ObterDataDoMySql($row['identidade_data_emissao']) . "</td>";
 											echo "<td>" . $row['identidade_orgao'] . "</td>";
 											echo "<td>" . $row['identidade_uf'] . "</td>";
 											echo "<td>" . $row['bdf'] . "</td>";

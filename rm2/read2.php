@@ -4,112 +4,23 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
     header("location: /comcasec/index.php");
     exit();
 }
+
+// Include config file
+include_once("conexao_rm2.php");
+include_once("alunodao_class.php");
+	
+$aluno = NULL;
 $noget = trim($_GET["id"]);
 // Check existence of id parameter before processing further
 if (isset($_GET["id"]) && !empty($noget)) {
-    // Include config file
-    include_once("conexao_rm2.php");
 
-    // Prepare a select statement
-    $sql = "SELECT * FROM aluno WHERE id_aluno = ?";
-	$sql2 = "SELECT nome_quadro FROM quadro WHERE id_quadro = ?";
-	$sql3 = "SELECT nome_companhia FROM companhia WHERE id_companhia = ?";
-	$sql4 = "SELECT nome_pelotao FROM pelotao WHERE id_pelotao = ?";
-
-    if ($stmt = mysqli_prepare($conn, $sql)) {
-		$stmt2 = mysqli_prepare($conn, $sql2);
-		$stmt3 = mysqli_prepare($conn, $sql3);
-		$stmt4 = mysqli_prepare($conn, $sql4);
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "s", $param_id);
-
-        // Set parameters
-        $param_id = trim($_GET["id"]);
-
-        // Attempt to execute the prepared statement
-        if (mysqli_stmt_execute($stmt)) {
-            $result = mysqli_stmt_get_result($stmt);
-
-            if (mysqli_num_rows($result) == 1) {
-                /* Fetch result row as an associative array. Since the result set contains only one row, we don't need to use while loop */
-                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-				
-                
-                // Retrieve individual field value
-				$nip = $row['nip'];
-				$nome_completo = $row['nome_completo'];
-				$nome_de_guerra = $row['nome_de_guerra'];
-				$turma = $row['turma'];
-				$id_quadro = $row['fk_quadro'];
-				$id_pelotao = $row['fk_pelotao'];
-				$id_companhia = $row['fk_companhia'];
-				$funcol = $row['funcol'];
-				$data_de_apresentacao = $row['data_de_apresentacao'];
-				$nacionalidade = $row['nacionalidade'];
-				$naturalidade = $row['naturalidade'];
-				$cidade_nascimento = $row['cidade_nascimento'];
-				$data_nascimento = $row['data_nascimento'];
-				$cor = $row['cor'];
-				$sexo = $row['sexo'];
-				$estado_civil = $row['estado_civil'];
-				$nome_pai = $row['nome_pai'];
-				$nome_mae = $row['nome_mae'];
-				$cpf = $row['cpf'];
-				$identidade = $row['identidade'];
-				$identidade_data_emissao = $row['identidade_data_emissao'];
-				$identidade_orgao = $row['identidade_orgao'];
-				$identidade_uf = $row['identidade_uf'];
-				$bdf = $row['bdf'];
-				$cronico = $row['cronico'];
-				$alojamento = $row['alojamento'];
-				$armario = $row['armario'];
-				$pos_graduacao = $row['pos_graduacao'];
-				$mestrado = $row['mestrado'];
-				$doutorado = $row['doutorado'];
-				$vinculo_marinha = $row['vinculo_marinha'];
-				$quadro_forca_anterior = $row['quadro_forca_anterior'];
-				$om_origem = $row['om_origem'];
-				$servidor_publico = $row['servidor_publico'];
-				$residencia_medica = $row['residencia_medica'];	
-
-
-				mysqli_stmt_bind_param($stmt2, "i", $id_quadro);
-				mysqli_stmt_execute($stmt2);
-				$result2 = mysqli_stmt_get_result($stmt2);
-				$row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC);
-				
-				mysqli_stmt_bind_param($stmt3, "i", $id_companhia);
-				mysqli_stmt_execute($stmt3);
-				$result3 = mysqli_stmt_get_result($stmt3);
-				$row3 = mysqli_fetch_array($result3, MYSQLI_ASSOC);
-				
-				mysqli_stmt_bind_param($stmt4, "i", $id_pelotao);
-				mysqli_stmt_execute($stmt4);
-				$result4 = mysqli_stmt_get_result($stmt4);
-				$row4 = mysqli_fetch_array($result4, MYSQLI_ASSOC);
-				
-				
-				$nome_quadro = $row2['nome_quadro'];
-				$nome_pelotao = $row4['nome_pelotao'];
-				$nome_companhia = $row3['nome_companhia'];
-				
-				
-				
-            } else {
-                // URL doesn't contain valid id parameter. Redirect to error page
-                header("location: error.php");
-                exit();
-            }
-        } else {
-            echo "Oops! Algo deu errado. Tente novamente mais tarde";
-        }
-    }
-
-    // Close statement
-    mysqli_stmt_close($stmt);
-
+	$param_id = trim($_GET["id"]);
+	$alunoDao = new AlunoDao($conn);
+	$aluno = $alunoDao->ObterPorId($_GET["id"]);
+	
     // Close connection
     mysqli_close($conn);
+	
 } else {
 	echo oi;
     // URL doesn't contain id parameter. Redirect to error page
@@ -140,139 +51,139 @@ if (isset($_GET["id"]) && !empty($noget)) {
                         </div>
                         <div class="form-group">
                             <label>NIP</label>                            
-                            <p class="form-control-static"><?php echo $row['nip']; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->nip; ?></p>
                         </div>
                         <div class="form-group">
                             <label>Nome de Guerra</label>
-                            <p class="form-control-static"><?php echo $row['nome_de_guerra']; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->nome_de_guerra; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Turma</label>
-                            <p class="form-control-static"><?php echo $row['turma']; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->turma; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Quadro</label>
-                            <p class="form-control-static"><?php echo $row2['nome_quadro']; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->nome_quadro; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Pelotão</label>
-                            <p class="form-control-static"><?php echo $row4['nome_pelotao']; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->nome_pelotao; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Companhia</label>
-                            <p class="form-control-static"><?php echo $row3['nome_companhia']; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->nome_companhia; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Funcol</label>
-                            <p class="form-control-static"><?php echo $row["funcol"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->funcol; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Data de Apresentação</label>
-                            <p class="form-control-static"><?php echo $row["data_de_apresentacao"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->data_de_apresentacao; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Nacionalidade</label>
-                            <p class="form-control-static"><?php echo $row["nacionalidade"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->nacionalidade; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Naturalidade</label>
-                            <p class="form-control-static"><?php echo $row["naturalidade"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->naturalidade; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Cidade de Nascimento</label>
-                            <p class="form-control-static"><?php echo $row["cidade_nascimento"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->cidade_nascimento; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Data de Nascimento</label>
-                            <p class="form-control-static"><?php echo $row["data_nascimento"]; ?></p>
+                            <p class="form-control-static"><?php echo  $aluno->data_nascimento; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Cor</label>
-                            <p class="form-control-static"><?php echo $row["cor"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->cor; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Sexo</label>
-                            <p class="form-control-static"><?php echo $row["sexo"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->sexo; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Estado Civil</label>
-                            <p class="form-control-static"><?php echo $row["estado_civil"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->estado_civil; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Nome do Pai</label>
-                            <p class="form-control-static"><?php echo $row["nome_pai"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->nome_pai; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Nome da Mãe</label>
-                            <p class="form-control-static"><?php echo $row["nome_mae"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->nome_mae; ?></p>
                         </div>
 						<div class="form-group">
                             <label>CPF</label>
-                            <p class="form-control-static"><?php echo $row["cpf"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->cpf; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Identidade</label>
-                            <p class="form-control-static"><?php echo $row["identidade"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->identidade; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Data de Emissão da Identidade</label>
-                            <p class="form-control-static"><?php echo $row["identidade_data_emissao"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->identidade_data_emissao; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Órgão Emissor da Identidade</label>
-                            <p class="form-control-static"><?php echo $row["identidade_orgao"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->identidade_orgao; ?></p>
                         </div>
 						<div class="form-group">
                             <label>UF da Identidade</label>
-                            <p class="form-control-static"><?php echo $row["identidade_uf"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->identidade_uf; ?></p>
                         </div>
 						<div class="form-group">
                             <label>BDF</label>
-                            <p class="form-control-static"><?php echo $row["bdf"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->bdf; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Crônico</label>
-                            <p class="form-control-static"><?php echo $row["cronico"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->cronico; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Alojamento</label>
-                            <p class="form-control-static"><?php echo $row["alojamento"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->alojamento; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Armário</label>
-                            <p class="form-control-static"><?php echo $row["armario"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->armario; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Especialidade</label>
-                            <p class="form-control-static"><?php echo $row["pos_graduacao"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->pos_graduacao; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Mestrado</label>
-                            <p class="form-control-static"><?php echo $row["mestrado"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->mestrado; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Doutorado</label>
-                            <p class="form-control-static"><?php echo $row["doutorado"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->doutorado; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Vínculo Anterior com a Marinha</label>
-                            <p class="form-control-static"><?php echo $row["vinculo_marinha"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->vinculo_marinha; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Quadro e Força Anterior</label>
-                            <p class="form-control-static"><?php echo $row["quadro_forca_anterior"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->quadro_forca_anterior; ?></p>
                         </div>
 						<div class="form-group">
                             <label>OM de Origem</label>
-                            <p class="form-control-static"><?php echo $row["om_origem"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->om_origem; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Servidor Público</label>
-                            <p class="form-control-static"><?php echo $row["servidor_publico"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->servidor_publico; ?></p>
                         </div>
 						<div class="form-group">
                             <label>Residência Médica</label>
-                            <p class="form-control-static"><?php echo $row["residencia_medica"]; ?></p>
+                            <p class="form-control-static"><?php echo $aluno->residencia_medica; ?></p>
                         </div>
                         <p><a href="index2.php" class="btn btn-primary">Voltar</a></p>
                     </div>
