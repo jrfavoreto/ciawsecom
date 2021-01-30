@@ -31,8 +31,8 @@ $arrayQuadro = ObterArrayQuadros($conn);
 
 //-----------------
 // Verifica o id passa via GET  e carrega os campos na tela para edição
-
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_GET["id"])) ) {
+$id_get = trim($_GET["id"]);
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($id_get) && !empty($id_get) ) {
 
     // Prepare a select statement
     $sql = "SELECT * FROM aluno WHERE id_aluno = ?";
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
     if ($stmt = mysqli_prepare($conn, $sql)) {
 		
 		// Set parameters
-        $id_aluno = trim($_GET["id"]);
+        $id_aluno = $id_get;
 		
 		// Bind variables to the prepared statement as parameters
         mysqli_stmt_bind_param($stmt, "s", $id_aluno);
@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
     // Close connection
     mysqli_close($conn);
 	
-} elseif($_SERVER["REQUEST_METHOD"] == "POST"){   // Processamento dos dados do formulário quando feito o submit
+} elseif($_SERVER["REQUEST_METHOD"] == "POST") {   // Processamento dos dados do formulário quando feito o submit
     
 	 $id_aluno = trim($_POST["id_aluno"]);
 	

@@ -19,8 +19,8 @@ $nome_completo = $nome_de_guerra =  $nip = $cpf = "";
 
 //-----------------
 // Verifica o id passa via GET  e carrega os campos na tela para edição
-
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_GET["id"])) ) {
+$id_get = trim($_GET["id"]);
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($id_get) && !empty($id_get) ) {
 
     // Prepare a select statement
     $sql = "SELECT id_aluno, nip, nome_completo, nome_de_guerra, cpf FROM aluno WHERE id_aluno = ?";
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"]) && !empty(trim($_G
     if ($stmt = mysqli_prepare($conn, $sql)) {
 		
 		// Set parameters
-        $id_aluno = trim($_GET["id"]);
+        $id_aluno = $id_get;
 		
 		// Bind variables to the prepared statement as parameters
         mysqli_stmt_bind_param($stmt, "s", $id_aluno);

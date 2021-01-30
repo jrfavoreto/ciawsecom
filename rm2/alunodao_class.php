@@ -6,7 +6,7 @@ require_once ('aluno_class.php');
 
 class AlunoDao {
 	
-	private mysqli $dbConection;
+	private $dbConection;
 	
     public function __construct($dbConection) {
 		$this->dbConection = $dbConection;
