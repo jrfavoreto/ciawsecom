@@ -1,25 +1,34 @@
 <?php
 //Inicialização 
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta charset="utf-8">
-        <meta name="author" content="GM (T) Gabriel Gonçalves CFO 2020">
-        <title>Login - SECOM do COMCA CIAW - Criado pelo GM (T) Gabriel Gonçalves CFO 2020</title>
+        <meta name="author" content="">
+        <title>Login - Cad Alunos - Secretaria do COMCA (CIAW)</title>
 
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!-- Bootstrap core CSS -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+        <!-- Bootstrap core JavaScript -->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <style type="text/css">
+            #logo-ciaw{
+                height: 100px;
+            }
+            
+        </style>
     </head>
     <body>
         <div class="container py-5">
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-12 text-center mb-0">
-                        <img src="ciaw3.png">
+                        <img id="logo-ciaw" src="img/ciaw.png">
                     </div>
 					<center>
 					<div class="mb-5">
@@ -38,7 +47,7 @@ session_start();
                                     <h3 class="mb-0">User Login</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form class="form" role="form" autocomplete="off" action="valida.php" id="formLogin" novalidate="" method="POST">
+                                    <form class="form" role="form" autocomplete="off" action="valida-login.php" id="formLogin" novalidate="" method="POST">
                                         <div class="form-group">
                                             <label for="uname1">Login</label>
                                             <input type="text" class="form-control form-control-lg rounded-0" name="login" id="uname1" placeholder="Login" required="" autofocus>
