@@ -25,14 +25,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
 
   <title>Cad Alunos - Secretaria do COMCA (CIAW)</title>
 
-  <!-- Custom styles for this template -->
-  <link href="css/simple-sidebar.css" rel="stylesheet">
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
   <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>-->
  
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  
+   <!-- Custom styles for this template -->
+   <link href="css/simple-sidebar.css" rel="stylesheet">
+
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
