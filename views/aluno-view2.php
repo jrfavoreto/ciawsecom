@@ -88,7 +88,7 @@ include_once("funcoes_apoio.php");
 $(document).ready(function(){
    var grid = $('#gridAlunos').DataTable({
 		scrollX: true,
-		select: true,
+		select: 'single',
 		responsive: true,
 		colReorder: true,
 		searching: true,

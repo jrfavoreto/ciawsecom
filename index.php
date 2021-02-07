@@ -33,8 +33,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
   <!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet" type="text/css">
   <!-- DataTables css -->
-  <link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/af-2.3.5/b-1.6.5/b-colvis-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.3/r-2.2.7/sp-1.2.2/sl-1.3.1/datatables.min.css"/>
+ 
 </head>
 
 <body>
@@ -112,7 +112,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
  <script src="vendor/jquery/jquery.maskedinput.min.js"></script>
  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
  <!-- DataTables JS library -->
- <script type="text/javascript" src="vendor/jquery/jquery.dataTables.min.js"></script>
+ 
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+ <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/af-2.3.5/b-1.6.5/b-colvis-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.3/r-2.2.7/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
+ 
 
  <!-- Menu Toggle Script -->
 <script>
