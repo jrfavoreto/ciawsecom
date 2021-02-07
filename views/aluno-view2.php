@@ -1,15 +1,17 @@
 <?php
 
 session_start();
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
-	header("location: /comcasec/index.php");
-	exit();
-}
-if (isset($_SESSION['usuarioNiveisAcessoId']) && ($_SESSION['usuarioNiveisAcessoId']==2)){
-	header("location: index3.php");
-	exit();
-}
+
 // Include config file
+require_once("../config-app.php");
+include_once("../check-session.php");
+
+ echo ROOT;
+if (isset($_SESSION['usuarioNiveisAcessoId']) && ($_SESSION['usuarioNiveisAcessoId']==2)){
+	header("location:" . URL_BASE . "index3.php");
+	exit();
+}
+
 include_once("conexao_rm2.php");
 include_once("funcoes_apoio.php");
 
@@ -95,7 +97,7 @@ $(document).ready(function(){
 		processing: true,
         serverSide: true,
 		ajax: {
-			url: '/comcasec/views/aluno-query.php',
+			url: "<?php echo VIEWS_PATH . 'aluno-query.php' ?>",
 			type: 'POST'
     	}
    });

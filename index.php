@@ -5,13 +5,11 @@
  * */
     
  //Inicialização 
-header("Content-type: text/html; charset=utf-8"); 
 session_start();
-//Verificação do usuário logado.
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
-	header("location: login.php");
-	exit();
-}
+header("Content-type: text/html; charset=utf-8"); 
+include_once("config-app.php");
+include_once("check-session.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

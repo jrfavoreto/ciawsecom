@@ -1,5 +1,12 @@
 <?php
 
+require_once("../config-app.php");
+//include_once(DB_PATH . 'config-db-rm2.php');
+//include_once(DB_PATH . 'ssp.php' ); //esse arquivo já é o customizado
+require_once(AJAX_DB_PATH .'config-db-rm2.php');
+require_once(AJAX_DB_PATH . 'ssp.php' ); //esse arquivo já é o customizado
+//require('ssp.customized.class.php' );
+
 /*
  * DataTables example server-side processing script.
  *
@@ -99,7 +106,7 @@ $columns = array(
 );
 
 // SQL server connection information
-require('../db/config-db-rm2.php');
+
 $sql_details = array(
 	'user' => $db_username,
 	'pass' => $db_password,
@@ -107,13 +114,6 @@ $sql_details = array(
 	'host' => $db_host
 );
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * If you just want to use the basic configuration for DataTables with PHP
- * server-side, there is no need to edit below this line.
- */
-
-require( '../db/ssp.php' ); //esse arquivo já é o customizado
-//require('ssp.customized.class.php' );
 
 /* Sql que quero executar no banco:
 $sql = "SELECT a.*, q.nome_quadro, q.sigla_quadro, p.nome_pelotao, c.nome_companhia 
