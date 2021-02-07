@@ -50,11 +50,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
       <div class="sidebar-heading">Cad Alunos</div>
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Cursos</a>
+        <a onclick="exibirPagina('views/aluno-view.php')" href="javascript:void(0)" class="list-group-item list-group-item-action bg-light">Alunos</a>
+        <a onclick="exibirPagina('views/aluno-view2.php')" href="javascript:void(0)" class="list-group-item list-group-item-action bg-light">Alunos 2</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Usuários</a>
         <a onclick="exibirPagina('content1.php')" href="javascript:void(0)" class="list-group-item list-group-item-action bg-light">Conteúdo 1</a>
         <a onclick="exibirPagina('content2.php')" href="javascript:void(0)" class="list-group-item list-group-item-action bg-light">Conteúdo 2</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Usuários</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Turmas</a>
-        <a onclick="exibirPagina('views/aluno-view.php')" href="javascript:void(0)" class="list-group-item list-group-item-action bg-light">Alunos</a>
+        
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -126,7 +128,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
   </script>
 
 <?php 
-    if($_GET["page"] != "") {
+    if(isset($_GET["page"]) && $_GET["page"] != "") {
       $pagina = $_GET["page"];
       unset($_GET["page"]);
       echo "<script> exibirPagina('". $pagina ."'); </script>";

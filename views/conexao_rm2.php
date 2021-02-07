@@ -1,11 +1,8 @@
 <?php
-    $servidor = "localhost";
-    $usuario = "root";
-    $senha = "";
-    $dbname = "ciaw_secom_comca_rm2";  
-    //Criar a conexao
-    $conn = mysqli_connect($servidor, $usuario, $senha, $dbname);
-    //$conn_rm2 = mysqli_connect($servidor, $usuario, $senha, $dbname);//conexão sobrando...
+   require('../db/config-db-rm2.php');
+
+   //Criar a conexao
+   $conn = mysqli_connect($db_host, $db_username, $db_password, $db_name);
 	
 	mysqli_set_charset($conn,"utf8");
 	
