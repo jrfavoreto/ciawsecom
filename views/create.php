@@ -512,28 +512,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
  
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Criar registro de Aluno</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
-    <style type="text/css">
-        .wrapper{
-            width: 500px;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
+
+<div class="form-wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header">
-                        <h2>Adicionar Aluno</h2>
+                        <h2>Novo Aluno</h2>
                     </div>
                     <p>Por favor, preencha os campos abaixo para adicionar um novo aluno à base de dados</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -753,14 +738,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <input type="text" name="residencia_medica" class="form-control" value="<?php echo $residencia_medica; ?>">
                             <span class="help-block"><?php echo $residencia_medica_err;?></span>
                         </div>
+                        <a href="index.php?page=views/aluno-view.php" class="btn btn-dark">Cancelar</a>
                         <input type="submit" class="btn btn-primary" value="Criar">
-                        <a href="index2.php" class="btn btn-default">Cancelar</a>
+                      
                     </form>
                 </div>
             </div>        
         </div>
     </div>
-</body>
 <script>
 $(document).ready(function () {
     $("#data_de_apresentacao").mask("99/99/9999");
@@ -772,4 +757,3 @@ $(document).ready(function () {
 	$("#nip").mask("99.9999.99"); 
 });
 </script>
-</html>

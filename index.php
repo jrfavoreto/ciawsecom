@@ -124,6 +124,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
     }
     
   </script>
+
+<?php 
+    if($_GET["page"] != "") {
+      $pagina = $_GET["page"];
+      unset($_GET["page"]);
+      echo "<script> exibirPagina('". $pagina ."'); </script>";
+    } ?>
 </body>
 
 </html>

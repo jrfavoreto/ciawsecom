@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($id_get) && !empty($id_get) ) {
                         </div>
 						<p>O registro do aluno acima será excluído do sistema e a operação não poderá ser desfeita. Deseja confirmar a exclusão?</p>
                        
-                        <a href="index.php" class="btn btn-dark">Cancelar</a>
+                        <a href="index.php?page=views/aluno-view.php" class="btn btn-dark">Cancelar</a>
                         <input type="submit" class="btn btn-primary" value="Sim">
 						<br />
 						<br />

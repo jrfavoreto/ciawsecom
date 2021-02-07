@@ -796,7 +796,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($id_get) && !empty($id_get) ) {
                         <input type="text" name="residencia_medica" class="form-control" value="<?php echo $residencia_medica; ?>">
                         <span class="help-block"><?php echo $residencia_medica_err;?></span>
                     </div>
-                    <a href="index.php" class="btn btn-dark">Cancelar</a>
+                    <a href="index.php?page=views/aluno-view.php" class="btn btn-dark">Cancelar</a>
                     <input type="submit" class="btn btn-primary" value="Salvar">
                     
                     <br />

@@ -103,7 +103,7 @@ if ($result = mysqli_query($conn, $sql)) {
 		while ($row = mysqli_fetch_array($result)) {
 				
 				echo "<tr>";
-				echo "<td>" . $numero . "</td>"; $numero+=1;
+				echo "<td>" . $row['id_aluno'] . "</td>"; $numero+=1;
 				echo "<td>" . $row['nip'] . "</td>";
 				echo "<td>" . $row['nome_completo'] . "</td>";
 				echo "<td>" . $row['nome_de_guerra'] . "</td>";
@@ -206,15 +206,6 @@ $(document).ready(function(){
 		}
     });
 
-	$('#btnNovo').click( function () {
-        var data = grid.row('.selected').data();
-		if(data){
-			var id = data[0];
-			var link = "./views/create.php?id="+ id;
-			exibirPagina(link);
-		}
-    });
-
 	$('#btnRemover').click( function () {
         var data = grid.row('.selected').data();
 		if(data){
@@ -222,6 +213,11 @@ $(document).ready(function(){
 			var link = "./views/delete.php?id="+ id;
 			exibirPagina(link);
 		}
+    });
+
+	$('#btnNovo').click( function () {
+		var link = "./views/create.php"
+		exibirPagina(link);
     });
 
 });

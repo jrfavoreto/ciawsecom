@@ -34,9 +34,9 @@ if (isset($_GET["id"]) && !empty($noget)) {
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
-                    <h1>Visualizar Registros</h1>
+                    <h1>Visualizar Informações</h1>
                 </div>
-                
+                <p><a href="index.php?page=views/aluno-view.php" class="btn btn-primary">Voltar</a></p>
                 <div class="form-group">
                     <label>NIP</label>                            
                     <input type="text" class="form-control" readonly  value="<?php echo  $aluno->nip; ?>">
@@ -173,7 +173,6 @@ if (isset($_GET["id"]) && !empty($noget)) {
                     <label>Residência Médica</label>
                     <input type="text" class="form-control" readonly  value="<?php echo $aluno->residencia_medica; ?>">
                 </div>
-                <p><a href="index.php" class="btn btn-primary">Voltar</a></p>
             </div>
         </div>        
     </div>
