@@ -29,19 +29,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
   <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>-->
  
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-   <!-- Custom styles for this template -->
-   <link href="css/simple-sidebar.css" rel="stylesheet">
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template -->
+  <link href="css/simple-sidebar.css" rel="stylesheet" type="text/css">
+  <!-- DataTables css -->
+  <link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-   <!-- DataTables css -->
-   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"/>
-   <!-- DataTables JS library -->
-   <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-  
 </head>
 
 <body>
@@ -106,8 +99,21 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
   </div>
   <!-- /#wrapper -->
 
-  <!-- Menu Toggle Script -->
-  <script>
+<footer class="container">	
+  <div class="text-center">		
+    <p>&copy;2021 - CIAW</p>		
+  </div>
+</footer>
+
+ <!-- Bootstrap core JavaScript -->
+ <script src="vendor/jquery/jquery.min.js"></script>
+ <script src="vendor/jquery/jquery.maskedinput.min.js"></script>
+ <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <!-- DataTables JS library -->
+ <script type="text/javascript" src="vendor/jquery/jquery.dataTables.min.js"></script>
+
+ <!-- Menu Toggle Script -->
+<script>
     $("#menu-toggle").click(function(e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
@@ -118,7 +124,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != TRUE) {
     }
     
   </script>
-
 </body>
 
 </html>

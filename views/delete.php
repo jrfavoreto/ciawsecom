@@ -102,22 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($id_get) && !empty($id_get) ) {
 
  
 ?>
- 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Excluir Aluno</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        .wrapper{
-            width: 500px;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
+<div class="form-wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -146,8 +131,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($id_get) && !empty($id_get) ) {
                             <input type="text" name="cpf" class="form-control" readonly value="<?php echo $cpf; ?>">
                         </div>
 						<p>O registro do aluno acima será excluído do sistema e a operação não poderá ser desfeita. Deseja confirmar a exclusão?</p>
+                       
+                        <a href="index.php" class="btn btn-dark">Cancelar</a>
                         <input type="submit" class="btn btn-primary" value="Sim">
-                        <a href="index2.php" class="btn btn-default">Cancelar</a>
 						<br />
 						<br />
                     </form>
@@ -155,5 +141,3 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($id_get) && !empty($id_get) ) {
             </div>        
         </div>
     </div>
-</body>
-</html>

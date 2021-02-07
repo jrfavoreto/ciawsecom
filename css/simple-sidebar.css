@@ -3,6 +3,13 @@
  * Copyright 2013-2020 Start Bootstrap
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-simple-sidebar/blob/master/LICENSE)
  */
+ .container-grid {
+    max-width: 1200px;
+ }
+ .form-wrapper{
+  width: 75%;
+  margin: 0 auto;
+}
 
  #wrapper {
     overflow-x: hidden;

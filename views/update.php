@@ -571,257 +571,241 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($id_get) && !empty($id_get) ) {
  
 ?>
  
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Aluno</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
-    <style type="text/css">
-        .wrapper{
-            width: 500px;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="page-header">
-                        <h2>Editar Aluno</h2>
-                    </div>
-                    <p>Se desejar, edite os campos abaixo para alterar os dados do aluno.</p>
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-					
-						<input type="hidden" name="id_aluno" value="<?php echo $id_aluno; ?>">
-                        <div class="form-group <?php echo (!empty($nome_completo_err)) ? 'has-error' : ''; ?>">
-                            <label>Nome Completo</label>
-                            <input type="text" name="nome_completo" class="form-control" value="<?php echo $nome_completo; ?>">
-                            <span class="help-block"><?php echo $nome_completo_err;?></span>
-                        </div>
-                        <div class="form-group <?php echo (!empty($nome_de_guerra_err)) ? 'has-error' : ''; ?>">
-                            <label>Nome de Guerra</label>
-                            <input type="text" name="nome_de_guerra" class="form-control" value="<?php echo $nome_de_guerra; ?>">
-                            <span class="help-block"><?php echo $nome_de_guerra_err;?></span>
-                        </div>
-                        <div class="form-group <?php echo (!empty($turma_err)) ? 'has-error' : ''; ?>">
-                            <label>Turma</label>
-                            <input type="text" name="turma" class="form-control" value="<?php echo $turma; ?>">
-                            <span class="help-block"><?php echo $turma_err;?></span>
-                        </div>
-												
-						<div class="form-group">
-							<label>Quadro</label>
-							<select id="select_quadro" name="select_quadro" class="form-control">
-								<?php
-									foreach ($arrayQuadro as $row)
-									{
-										$id_q = $row['id_quadro'];
-										$str_quadro = "(" . $row['sigla_quadro'] . ") " . $row['nome_quadro'];
-										$selecionado = ($id_quadro == $id_q) ? 'selected' : '';
-										echo "<option value='$id_q' $selecionado >$str_quadro</option>";
-									}
-								   
-								  ?>
-							</select>
-					    </div>
-						
-						<div class="form-group">
-							<label>Pelotão/Companhia</label>
-							<select id="select_pelotao" name="select_pelotao" class="form-control">
-								<?php
-									foreach ($arrayPelotao as $row)
-									{
-										$id_pelot = $row['id_pelotao'];
-										$str_pelotao = $row['nome_pelotao'] . " - " . $row['nome_companhia'];
-										$selecionado = ($id_pelotao == $id_pelot) ? 'selected' : '';
-										echo "<option value='$id_pelot' $selecionado >$str_pelotao</option>";
-									}
-								   
-								  ?>
-							</select>
-					    </div>
-						
-						<div class="form-group <?php echo (!empty($endereco_err)) ? 'has-error' : ''; ?>">
-                            <label>Endereço</label>
-                            <input type="text" name="endereco" class="form-control" value="<?php echo $endereco; ?>">
-                            <span class="help-block"><?php echo $endereco_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($nip_err)) ? 'has-error' : ''; ?>">
-                            <label>NIP</label>
-                            <input type="text" id="nip" name="nip" class="form-control" value="<?php echo $nip; ?>">
-                            <span class="help-block"><?php echo $nip_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($funcol_err)) ? 'has-error' : ''; ?>">
-                            <label>Funcol</label>
-                            <input type="text" name="funcol" class="form-control" value="<?php echo $funcol; ?>">
-                            <span class="help-block"><?php echo $funcol_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($nacionalidade_err)) ? 'has-error' : ''; ?>">
-                            <label>Nacionalidade</label>
-                            <input type="text" name="nacionalidade" class="form-control" value="<?php echo $nacionalidade; ?>">
-                            <span class="help-block"><?php echo $nacionalidade_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($naturalidade_err)) ? 'has-error' : ''; ?>">
-                            <label>Naturalidade</label>
-                            <input type="text" name="naturalidade" class="form-control" value="<?php echo $naturalidade; ?>">
-                            <span class="help-block"><?php echo $naturalidade_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($cidade_nascimento_err)) ? 'has-error' : ''; ?>">
-                            <label>Cidade de Nascimento</label>
-                            <input type="text" name="cidade_nascimento" class="form-control" value="<?php echo $cidade_nascimento; ?>">
-                            <span class="help-block"><?php echo $cidade_nascimento_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($data_nascimento_err)) ? 'has-error' : ''; ?>">
-                            <label>Data de Nascimento</label>
-                            <input type="text" id="data_nascimento" name="data_nascimento" class="form-control" value="<?php echo $data_nascimento; ?>">
-                            <span class="help-block"><?php echo $data_nascimento_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($sexo_err)) ? 'has-error' : ''; ?>">
-                            <label>Sexo</label>
-                            <input type="text" name="sexo" class="form-control" value="<?php echo $sexo; ?>">
-                            <span class="help-block"><?php echo $sexo_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($estado_civil_err)) ? 'has-error' : ''; ?>">
-                            <label>Estado Civil</label>
-                            <input type="text" name="estado_civil" class="form-control" value="<?php echo $estado_civil; ?>">
-                            <span class="help-block"><?php echo $estado_civil_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($nome_pai_err)) ? 'has-error' : ''; ?>">
-                            <label>Nome do Pai</label>
-                            <input type="text" name="nome_pai" class="form-control" value="<?php echo $nome_pai; ?>">
-                            <span class="help-block"><?php echo $nome_pai_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($nome_mae_err)) ? 'has-error' : ''; ?>">
-                            <label>Nome da Mãe</label>
-                            <input type="text" name="nome_mae" class="form-control" value="<?php echo $nome_mae; ?>">
-                            <span class="help-block"><?php echo $nome_mae_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($cor_err)) ? 'has-error' : ''; ?>">
-                            <label>Cor</label>
-                            <input type="text" name="cor" class="form-control" value="<?php echo $cor; ?>">
-                            <span class="help-block"><?php echo $cor_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($bdf_err)) ? 'has-error' : ''; ?>">
-                            <label>BDF</label>
-                            <input type="text" name="bdf" class="form-control" value="<?php echo $bdf; ?>">
-                            <span class="help-block"><?php echo $bdf_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($cronico_err)) ? 'has-error' : ''; ?>">
-                            <label>Crônico</label>
-                            <input type="text" name="cronico" class="form-control" value="<?php echo $cronico; ?>">
-                            <span class="help-block"><?php echo $cronico_err;?></span>
-                        </div>
-						
-						<div class="form-group <?php echo (!empty($pos_graduacao_err)) ? 'has-error' : ''; ?>">
-                            <label>Especialidade</label>
-                            <input type="text" name="pos_graduacao" class="form-control" value="<?php echo $pos_graduacao; ?>">
-                            <span class="help-block"><?php echo $pos_graduacao_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($mestrado_err)) ? 'has-error' : ''; ?>">
-                            <label>Mestrado</label>
-                            <input type="text" name="mestrado" class="form-control" value="<?php echo $mestrado; ?>">
-                            <span class="help-block"><?php echo $mestrado_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($doutorado_err)) ? 'has-error' : ''; ?>">
-                            <label>Doutorado</label>
-                            <input type="text" name="doutorado" class="form-control" value="<?php echo $doutorado; ?>">
-                            <span class="help-block"><?php echo $doutorado_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($vinculo_marinha_err)) ? 'has-error' : ''; ?>">
-                            <label>Vínculo anterior com a Marinha</label>
-                            <input type="text" name="vinculo_marinha" class="form-control" value="<?php echo $vinculo_marinha; ?>">
-                            <span class="help-block"><?php echo $vinculo_marinha_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($quadro_forca_anterior_err)) ? 'has-error' : ''; ?>">
-                            <label>Quadro Anterior na Força</label>
-                            <input type="text" name="quadro_forca_anterior" class="form-control" value="<?php echo $quadro_forca_anterior; ?>">
-                            <span class="help-block"><?php echo $quadro_forca_anterior_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($om_origem_err)) ? 'has-error' : ''; ?>">
-                            <label>OM de Origem</label>
-                            <input type="text" name="om_origem" class="form-control" value="<?php echo $om_origem; ?>">
-                            <span class="help-block"><?php echo $om_origem_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($servidor_publico_err)) ? 'has-error' : ''; ?>">
-                            <label>Servidor Público</label>
-                            <input type="text" name="servidor_publico" class="form-control" value="<?php echo $servidor_publico; ?>">
-                            <span class="help-block"><?php echo $servidor_publico_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($telefone_residencial_err)) ? 'has-error' : ''; ?>">
-                            <label>Tel. em caso de Emergência</label>
-                            <input type="text" id="telefone_residencial"  name="telefone_residencial" class="form-control" value="<?php echo $telefone_residencial; ?>">
-                            <span class="help-block"><?php echo $telefone_residencial_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($telefone_celular_err)) ? 'has-error' : ''; ?>">
-                            <label>Telefone Celular</label>
-                            <input type="text" id="telefone_celular" name="telefone_celular" class="form-control" value="<?php echo $telefone_celular; ?>">
-                            <span class="help-block"><?php echo $telefone_celular_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($cpf_err)) ? 'has-error' : ''; ?>">
-                            <label>CPF</label>
-                            <input type="text" id="cpf"  name="cpf" class="form-control" value="<?php echo $cpf; ?>">
-                            <span class="help-block"><?php echo $cpf_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($identidade_err)) ? 'has-error' : ''; ?>">
-                            <label>Número da Identidade</label>
-                            <input type="text" name="identidade" class="form-control" value="<?php echo $identidade; ?>">
-                            <span class="help-block"><?php echo $identidade_err;?></span>
-						</div>
-						<div class="form-group <?php echo (!empty($identidade_data_emissao_err)) ? 'has-error' : ''; ?>">
-                            <label>Data de Emissão da Identidade</label>
-                            <input type="text" id="identidade_data_emissao" name="identidade_data_emissao" class="form-control" value="<?php echo $identidade_data_emissao; ?>">
-                            <span class="help-block"><?php echo $identidade_data_emissao_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($identidade_orgao_err)) ? 'has-error' : ''; ?>">
-                            <label>Órgão Emissor da Identidade</label>
-                            <input type="text" name="identidade_orgao" class="form-control" value="<?php echo $identidade_orgao; ?>">
-                            <span class="help-block"><?php echo $identidade_orgao_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($identidade_uf_err)) ? 'has-error' : ''; ?>">
-                            <label>UF da Identidade</label>
-                            <input type="text" name="identidade_uf" class="form-control" value="<?php echo $identidade_uf; ?>">
-                            <span class="help-block"><?php echo $identidade_uf_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($e_mail_err)) ? 'has-error' : ''; ?>">
-                            <label>E-mail</label>
-                            <input type="text" name="e_mail" class="form-control" value="<?php echo $e_mail; ?>">
-                            <span class="help-block"><?php echo $e_mail_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($alojamento_err)) ? 'has-error' : ''; ?>">
-                            <label>Alojamento</label>
-                            <input type="text" name="alojamento" class="form-control" value="<?php echo $alojamento; ?>">
-                            <span class="help-block"><?php echo $alojamento_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($armario_err)) ? 'has-error' : ''; ?>">
-                            <label>Armário</label>
-                            <input type="text" name="armario" class="form-control" value="<?php echo $armario; ?>">
-                            <span class="help-block"><?php echo $armario_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($data_de_apresentacao_err)) ? 'has-error' : ''; ?>">
-                            <label>Data de Apresentação ao CIAW</label>
-                            <input type="text" id="data_de_apresentacao" name="data_de_apresentacao" class="form-control" value="<?php echo $data_de_apresentacao; ?>">
-                            <span class="help-block"><?php echo $data_de_apresentacao_err;?></span>
-                        </div>
-						<div class="form-group <?php echo (!empty($residencia_medica_err)) ? 'has-error' : ''; ?>">
-                            <label>Residência Médica</label>
-                            <input type="text" name="residencia_medica" class="form-control" value="<?php echo $residencia_medica; ?>">
-                            <span class="help-block"><?php echo $residencia_medica_err;?></span>
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="Salvar">
-                        <a href="index2.php" class="btn btn-default">Cancelar</a>
-						<br />
-						<br />
-                    </form>
+<div class="form-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h2>Editar Aluno</h2>
                 </div>
-            </div>        
-        </div>
+                <p>Se desejar, edite os campos abaixo para alterar os dados do aluno.</p>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                
+                    <input type="hidden" name="id_aluno" value="<?php echo $id_aluno; ?>">
+                    <div class="form-group <?php echo (!empty($nome_completo_err)) ? 'has-error' : ''; ?>">
+                        <label>Nome Completo</label>
+                        <input type="text" name="nome_completo" class="form-control" value="<?php echo $nome_completo; ?>">
+                        <span class="help-block"><?php echo $nome_completo_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($nome_de_guerra_err)) ? 'has-error' : ''; ?>">
+                        <label>Nome de Guerra</label>
+                        <input type="text" name="nome_de_guerra" class="form-control" value="<?php echo $nome_de_guerra; ?>">
+                        <span class="help-block"><?php echo $nome_de_guerra_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($turma_err)) ? 'has-error' : ''; ?>">
+                        <label>Turma</label>
+                        <input type="text" name="turma" class="form-control" value="<?php echo $turma; ?>">
+                        <span class="help-block"><?php echo $turma_err;?></span>
+                    </div>
+                                            
+                    <div class="form-group">
+                        <label>Quadro</label>
+                        <select id="select_quadro" name="select_quadro" class="form-control">
+                            <?php
+                                foreach ($arrayQuadro as $row)
+                                {
+                                    $id_q = $row['id_quadro'];
+                                    $str_quadro = "(" . $row['sigla_quadro'] . ") " . $row['nome_quadro'];
+                                    $selecionado = ($id_quadro == $id_q) ? 'selected' : '';
+                                    echo "<option value='$id_q' $selecionado >$str_quadro</option>";
+                                }
+                                
+                                ?>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Pelotão/Companhia</label>
+                        <select id="select_pelotao" name="select_pelotao" class="form-control">
+                            <?php
+                                foreach ($arrayPelotao as $row)
+                                {
+                                    $id_pelot = $row['id_pelotao'];
+                                    $str_pelotao = $row['nome_pelotao'] . " - " . $row['nome_companhia'];
+                                    $selecionado = ($id_pelotao == $id_pelot) ? 'selected' : '';
+                                    echo "<option value='$id_pelot' $selecionado >$str_pelotao</option>";
+                                }
+                                
+                                ?>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group <?php echo (!empty($endereco_err)) ? 'has-error' : ''; ?>">
+                        <label>Endereço</label>
+                        <input type="text" name="endereco" class="form-control" value="<?php echo $endereco; ?>">
+                        <span class="help-block"><?php echo $endereco_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($nip_err)) ? 'has-error' : ''; ?>">
+                        <label>NIP</label>
+                        <input type="text" id="nip" name="nip" class="form-control" value="<?php echo $nip; ?>">
+                        <span class="help-block"><?php echo $nip_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($funcol_err)) ? 'has-error' : ''; ?>">
+                        <label>Funcol</label>
+                        <input type="text" name="funcol" class="form-control" value="<?php echo $funcol; ?>">
+                        <span class="help-block"><?php echo $funcol_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($nacionalidade_err)) ? 'has-error' : ''; ?>">
+                        <label>Nacionalidade</label>
+                        <input type="text" name="nacionalidade" class="form-control" value="<?php echo $nacionalidade; ?>">
+                        <span class="help-block"><?php echo $nacionalidade_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($naturalidade_err)) ? 'has-error' : ''; ?>">
+                        <label>Naturalidade</label>
+                        <input type="text" name="naturalidade" class="form-control" value="<?php echo $naturalidade; ?>">
+                        <span class="help-block"><?php echo $naturalidade_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($cidade_nascimento_err)) ? 'has-error' : ''; ?>">
+                        <label>Cidade de Nascimento</label>
+                        <input type="text" name="cidade_nascimento" class="form-control" value="<?php echo $cidade_nascimento; ?>">
+                        <span class="help-block"><?php echo $cidade_nascimento_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($data_nascimento_err)) ? 'has-error' : ''; ?>">
+                        <label>Data de Nascimento</label>
+                        <input type="text" id="data_nascimento" name="data_nascimento" class="form-control" value="<?php echo $data_nascimento; ?>">
+                        <span class="help-block"><?php echo $data_nascimento_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($sexo_err)) ? 'has-error' : ''; ?>">
+                        <label>Sexo</label>
+                        <input type="text" name="sexo" class="form-control" value="<?php echo $sexo; ?>">
+                        <span class="help-block"><?php echo $sexo_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($estado_civil_err)) ? 'has-error' : ''; ?>">
+                        <label>Estado Civil</label>
+                        <input type="text" name="estado_civil" class="form-control" value="<?php echo $estado_civil; ?>">
+                        <span class="help-block"><?php echo $estado_civil_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($nome_pai_err)) ? 'has-error' : ''; ?>">
+                        <label>Nome do Pai</label>
+                        <input type="text" name="nome_pai" class="form-control" value="<?php echo $nome_pai; ?>">
+                        <span class="help-block"><?php echo $nome_pai_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($nome_mae_err)) ? 'has-error' : ''; ?>">
+                        <label>Nome da Mãe</label>
+                        <input type="text" name="nome_mae" class="form-control" value="<?php echo $nome_mae; ?>">
+                        <span class="help-block"><?php echo $nome_mae_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($cor_err)) ? 'has-error' : ''; ?>">
+                        <label>Cor</label>
+                        <input type="text" name="cor" class="form-control" value="<?php echo $cor; ?>">
+                        <span class="help-block"><?php echo $cor_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($bdf_err)) ? 'has-error' : ''; ?>">
+                        <label>BDF</label>
+                        <input type="text" name="bdf" class="form-control" value="<?php echo $bdf; ?>">
+                        <span class="help-block"><?php echo $bdf_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($cronico_err)) ? 'has-error' : ''; ?>">
+                        <label>Crônico</label>
+                        <input type="text" name="cronico" class="form-control" value="<?php echo $cronico; ?>">
+                        <span class="help-block"><?php echo $cronico_err;?></span>
+                    </div>
+                    
+                    <div class="form-group <?php echo (!empty($pos_graduacao_err)) ? 'has-error' : ''; ?>">
+                        <label>Especialidade</label>
+                        <input type="text" name="pos_graduacao" class="form-control" value="<?php echo $pos_graduacao; ?>">
+                        <span class="help-block"><?php echo $pos_graduacao_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($mestrado_err)) ? 'has-error' : ''; ?>">
+                        <label>Mestrado</label>
+                        <input type="text" name="mestrado" class="form-control" value="<?php echo $mestrado; ?>">
+                        <span class="help-block"><?php echo $mestrado_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($doutorado_err)) ? 'has-error' : ''; ?>">
+                        <label>Doutorado</label>
+                        <input type="text" name="doutorado" class="form-control" value="<?php echo $doutorado; ?>">
+                        <span class="help-block"><?php echo $doutorado_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($vinculo_marinha_err)) ? 'has-error' : ''; ?>">
+                        <label>Vínculo anterior com a Marinha</label>
+                        <input type="text" name="vinculo_marinha" class="form-control" value="<?php echo $vinculo_marinha; ?>">
+                        <span class="help-block"><?php echo $vinculo_marinha_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($quadro_forca_anterior_err)) ? 'has-error' : ''; ?>">
+                        <label>Quadro Anterior na Força</label>
+                        <input type="text" name="quadro_forca_anterior" class="form-control" value="<?php echo $quadro_forca_anterior; ?>">
+                        <span class="help-block"><?php echo $quadro_forca_anterior_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($om_origem_err)) ? 'has-error' : ''; ?>">
+                        <label>OM de Origem</label>
+                        <input type="text" name="om_origem" class="form-control" value="<?php echo $om_origem; ?>">
+                        <span class="help-block"><?php echo $om_origem_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($servidor_publico_err)) ? 'has-error' : ''; ?>">
+                        <label>Servidor Público</label>
+                        <input type="text" name="servidor_publico" class="form-control" value="<?php echo $servidor_publico; ?>">
+                        <span class="help-block"><?php echo $servidor_publico_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($telefone_residencial_err)) ? 'has-error' : ''; ?>">
+                        <label>Tel. em caso de Emergência</label>
+                        <input type="text" id="telefone_residencial"  name="telefone_residencial" class="form-control" value="<?php echo $telefone_residencial; ?>">
+                        <span class="help-block"><?php echo $telefone_residencial_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($telefone_celular_err)) ? 'has-error' : ''; ?>">
+                        <label>Telefone Celular</label>
+                        <input type="text" id="telefone_celular" name="telefone_celular" class="form-control" value="<?php echo $telefone_celular; ?>">
+                        <span class="help-block"><?php echo $telefone_celular_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($cpf_err)) ? 'has-error' : ''; ?>">
+                        <label>CPF</label>
+                        <input type="text" id="cpf"  name="cpf" class="form-control" value="<?php echo $cpf; ?>">
+                        <span class="help-block"><?php echo $cpf_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($identidade_err)) ? 'has-error' : ''; ?>">
+                        <label>Número da Identidade</label>
+                        <input type="text" name="identidade" class="form-control" value="<?php echo $identidade; ?>">
+                        <span class="help-block"><?php echo $identidade_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($identidade_data_emissao_err)) ? 'has-error' : ''; ?>">
+                        <label>Data de Emissão da Identidade</label>
+                        <input type="text" id="identidade_data_emissao" name="identidade_data_emissao" class="form-control" value="<?php echo $identidade_data_emissao; ?>">
+                        <span class="help-block"><?php echo $identidade_data_emissao_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($identidade_orgao_err)) ? 'has-error' : ''; ?>">
+                        <label>Órgão Emissor da Identidade</label>
+                        <input type="text" name="identidade_orgao" class="form-control" value="<?php echo $identidade_orgao; ?>">
+                        <span class="help-block"><?php echo $identidade_orgao_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($identidade_uf_err)) ? 'has-error' : ''; ?>">
+                        <label>UF da Identidade</label>
+                        <input type="text" name="identidade_uf" class="form-control" value="<?php echo $identidade_uf; ?>">
+                        <span class="help-block"><?php echo $identidade_uf_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($e_mail_err)) ? 'has-error' : ''; ?>">
+                        <label>E-mail</label>
+                        <input type="text" name="e_mail" class="form-control" value="<?php echo $e_mail; ?>">
+                        <span class="help-block"><?php echo $e_mail_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($alojamento_err)) ? 'has-error' : ''; ?>">
+                        <label>Alojamento</label>
+                        <input type="text" name="alojamento" class="form-control" value="<?php echo $alojamento; ?>">
+                        <span class="help-block"><?php echo $alojamento_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($armario_err)) ? 'has-error' : ''; ?>">
+                        <label>Armário</label>
+                        <input type="text" name="armario" class="form-control" value="<?php echo $armario; ?>">
+                        <span class="help-block"><?php echo $armario_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($data_de_apresentacao_err)) ? 'has-error' : ''; ?>">
+                        <label>Data de Apresentação ao CIAW</label>
+                        <input type="text" id="data_de_apresentacao" name="data_de_apresentacao" class="form-control" value="<?php echo $data_de_apresentacao; ?>">
+                        <span class="help-block"><?php echo $data_de_apresentacao_err;?></span>
+                    </div>
+                    <div class="form-group <?php echo (!empty($residencia_medica_err)) ? 'has-error' : ''; ?>">
+                        <label>Residência Médica</label>
+                        <input type="text" name="residencia_medica" class="form-control" value="<?php echo $residencia_medica; ?>">
+                        <span class="help-block"><?php echo $residencia_medica_err;?></span>
+                    </div>
+                    <a href="index.php" class="btn btn-dark">Cancelar</a>
+                    <input type="submit" class="btn btn-primary" value="Salvar">
+                    
+                    <br />
+                    <br />
+                </form>
+            </div>
+        </div>        
     </div>
-</body>
+</div>
 <script>
 $(document).ready(function () {
     $("#data_de_apresentacao").mask("99/99/9999");
@@ -833,4 +817,3 @@ $(document).ready(function () {
 	$("#nip").mask("99.9999.99"); 
 });
 </script>
-</html>

@@ -21,61 +21,66 @@ include_once("funcoes_apoio.php");
 			<div class="col-md-12">
 				<div class="page-header clearfix">
 					<h2 class="pull-left">Informações dos Alunos &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;</h2>
-					<a href="/comcasec/cursos.php" class="btn btn-warning pull-left">Voltar</a>
-					<a href="create.php" class="btn btn-success pull-left">Adicionar Alunos</a>
+					<br/>
+					<a href="/comcasec/cursos.php" class="btn btn-info pull-left">Voltar</a>
+					<button id="btnRemover" class="btn btn-warning pull-left">Remover</button>
+					<button id="btnNovo" class="btn btn-success pull-left">Novo</button>
+					<button id="btnEditar" class="btn btn-dark pull-left">Editar</button>
+					<button id="btnVisualizar" class="btn btn-secondary pull-left">Visualizar</button>
 				</div>
 			</div>
 		</div>        
 	</div>
 </div>
 <br />
-<table id='gridAlunos' class='display nowrap'>
-	<thead>
-		<tr>
-			<th>Número</th>
-			<th style='min-width: 95px'>Ação</th>
-			<th>NIP</th>
-			<th>Nome Completo</th>
-			<th>Nome de Guerra</th>
-			<th>Turma</th>
-			<th>Quadro</th>
-			<th>Pelotão</th>
-			<th>Companhia</th>
-			<th>Funcol</th>
-			<th>Data de Apresentação</th>
-			<th>Nacionalidade</th>
-			<th>Naturalidade</th>
-			<th>Cidade Nascimento</th>
-			<th>Data de Nascimento</th>
-			<th>Cor</th>
-			<th>Sexo</th>
-			<th>Estado Civil</th>
-			<th>Nome do Pai</th>
-			<th>Nome da Mãe</th>
-			<th>CPF</th>
-			<th>Identidade</th>
-			<th>Data de Emissão da Identidade</th>
-			<th>Expedidor da Identidade</th>
-			<th>UF da Identidade</th>
-			<th>BDF</th>
-			<th>Crônico</th>
-			<th>Alojamento</th>
-			<th>Armário</th>
-			<th>Especialidade</th>
-			<th>Mestrado</th>
-			<th>Doutorado</th>
-			<th>Vínculo Anterior com a Marinha</th>
-			<th>Quadro e Força Anterior</th>
-			<th>OM de Origem</th>
-			<th>Servidor Público</th>
-			<th>Residência Médica</th>
-			<th>Endereço</th>
-			<th>Tel. em caso de Emergência</th>
-			<th>Telefone Celular</th>
-			<th>E-mail</th>
-		</tr>
-	</thead>
-	<tbody>	
+
+<div class="container-grid">
+	<table id='gridAlunos' class='display compact nowrap'>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>NIP</th>
+				<th>Nome Completo</th>
+				<th>Nome de Guerra</th>
+				<th>Turma</th>
+				<th>Quadro</th>
+				<th>Pelotão</th>
+				<th>Companhia</th>
+				<th>Funcol</th>
+				<th>Data de Apresentação</th>
+				<th>Nacionalidade</th>
+				<th>Naturalidade</th>
+				<th>Cidade Nascimento</th>
+				<th>Data de Nascimento</th>
+				<th>Cor</th>
+				<th>Sexo</th>
+				<th>Estado Civil</th>
+				<th>Nome do Pai</th>
+				<th>Nome da Mãe</th>
+				<th>CPF</th>
+				<th>Identidade</th>
+				<th>Data de Emissão da Identidade</th>
+				<th>Expedidor da Identidade</th>
+				<th>UF da Identidade</th>
+				<th>BDF</th>
+				<th>Crônico</th>
+				<th>Alojamento</th>
+				<th>Armário</th>
+				<th>Especialidade</th>
+				<th>Mestrado</th>
+				<th>Doutorado</th>
+				<th>Vínculo Anterior com a Marinha</th>
+				<th>Quadro e Força Anterior</th>
+				<th>OM de Origem</th>
+				<th>Servidor Público</th>
+				<th>Residência Médica</th>
+				<th>Endereço</th>
+				<th>Tel. em caso de Emergência</th>
+				<th>Telefone Celular</th>
+				<th>E-mail</th>
+			</tr>
+		</thead>
+		<tbody>	
 			
  <?php
 						
@@ -99,16 +104,6 @@ if ($result = mysqli_query($conn, $sql)) {
 				
 				echo "<tr>";
 				echo "<td>" . $numero . "</td>"; $numero+=1;
-				echo "<td>";
-				
-				echo "<div class='row justify-content-center'>";											
-						echo "<div class='col-sm-1'> <a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a> </div>";
-						echo "<div class='col-sm-1'> <a href='update.php?id=" . $row['id_aluno'] . "' title='Editar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-edit'></span></a>  </div>";
-						echo "<div class='col-sm-1'> <a href='delete.php?id=" . $row['id_aluno'] . "' title='Remover Item' data-toggle='tooltip'><span class='glyphicon glyphicon-remove'></span></a>  </div>";
-				echo "</div>";
-
-				//echo "<a href='read2.php?id=" . $row['id_aluno'] . "' title='Visualizar Item' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
-				echo "</td>";
 				echo "<td>" . $row['nip'] . "</td>";
 				echo "<td>" . $row['nome_completo'] . "</td>";
 				echo "<td>" . $row['nome_de_guerra'] . "</td>";
@@ -157,8 +152,6 @@ if ($result = mysqli_query($conn, $sql)) {
 				
 		} //fim while
 		
-		echo "</tbody>";
-		echo "</table>";
 		// Free result set
 		mysqli_free_result($result);
 
@@ -173,12 +166,64 @@ if ($result = mysqli_query($conn, $sql)) {
 mysqli_close($conn);
 ?>
 
-
+			</tbody>
+		</table>
+	</div>
 <script>
 $(document).ready(function(){
-   $('#gridAlunos').DataTable({
-	"scrollX": true
+   var grid = $('#gridAlunos').DataTable({
+		'scrollX': true,
+		select: true,
+		responsive: true,
+		colReorder: true,
    });
+
+   $('#gridAlunos').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            grid.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
+ 
+    $('#btnVisualizar').click( function () {
+        var data = grid.row('.selected').data();
+		if(data){
+			var id = data[0];
+			var link = "./views/read2.php?id="+ id;
+			exibirPagina(link);
+		}
+    });
+
+	$('#btnEditar').click( function () {
+        var data = grid.row('.selected').data();
+		if(data){
+			var id = data[0];
+			var link = "./views/update.php?id="+ id;
+			exibirPagina(link);
+		}
+    });
+
+	$('#btnNovo').click( function () {
+        var data = grid.row('.selected').data();
+		if(data){
+			var id = data[0];
+			var link = "./views/create.php?id="+ id;
+			exibirPagina(link);
+		}
+    });
+
+	$('#btnRemover').click( function () {
+        var data = grid.row('.selected').data();
+		if(data){
+			var id = data[0];
+			var link = "./views/delete.php?id="+ id;
+			exibirPagina(link);
+		}
+    });
+
 });
 </script>
 
